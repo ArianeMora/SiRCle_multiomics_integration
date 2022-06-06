@@ -1,0 +1,165 @@
+---
+title: "Regulatory Clustering Model R"
+output:
+  html_document:
+    df_print: paged
+editor_options:
+  chunk_output_type: console
+---
+
+## Run SiRCle RCM
+
+## ORA setup
+Run ORA on each of the regulatory clusters. The files are saved in the current working directory.
+```{r}
+library(org.Hs.eg.db)
+library(clusterProfiler)
+library(svglite)
+library(sircle)
+# For running the immune cell shit install.packages("getopt")
+output_dir <- "../figures/sircle/"
+source("helper_functions.R")
+GSEA_file_dir="../data/S050_CCRCC_Clark_Cell2019/supps/GSEA/"
+ 
+#Import the pathways:
+KEGG <- read.csv(file.path(GSEA_file_dir,  "c2.cp.kegg.v6.2.symbols.csv"))
+Reactome <- read.csv(file.path(GSEA_file_dir,  "c2.cp.reactome.v6.2.symbols.csv"))
+Biocarta <- read.csv(file.path(GSEA_file_dir, "c2.cp.biocarta.v6.2.symbols.csv"))
+Hallmarks <- read.csv(file.path(GSEA_file_dir,  "h.all.v6.2.symbols.csv"))
+GO_BP <- read.csv(file.path(GSEA_file_dir, "c5.go.bp.v7.2.symbols.csv"))
+GO_CC <- read.csv(file.path(GSEA_file_dir, "c5.go.cc.v7.2.symbols.csv"))
+GO_MF <- read.csv(file.path(GSEA_file_dir, "c5.go.mf.v7.2.symbols.csv"))
+Metabolic <- read.csv(file.path(GSEA_file_dir, "41467_2016_BFncomms13041_MOESM340_ESM.csv"))
+Correction <- read.csv(file.path(GSEA_file_dir, "41467_2016_BFncomms13041_MOESM340_ESM.csv"))
+#Run the GSEA analysis
+##1."KEGG", "Reactome", "Biocarta", "Hallmarks"
+pathways <- rbind(KEGG, Reactome, Biocarta, Hallmarks)
+pathway_list <- list()
+for (pathway in unique(pathways$term)) {
+  pathway_list[[pathway]] <- as.character(pathways[pathways$term == pathway, 1])
+}
+```
+
+
+### ORA on the Tumour vs normal 
+
+```{r}
+input_data_dir <- '../data/S050_CCRCC_Clark_Cell2019/sircle/all_patients/all_cpgs/'
+figure_dir <- '../figures/sircle/all_patients/all_cpgs/'
+
+regLabel <- 'Regulation_Grouping_2'
+test_title <- 'RCM_P0.5-R1.0-M0.1'
+
+# Read in the regulatory clustering output
+sircleFileName <- paste0(input_data_dir, "RCM_all_patients_ccRCC_P0.5-R1.0-M0.1-GENES.csv")
+
+# Plot the size of each regulatory cluster as a circle
+sirclePlot(sircleFileName, output_dir=figure_dir, regLabels=regLabel, title=paste(test_title), fileType="pdf")
+
+# Run ORA on each of the clusters
+sircleORAHuman(sircleFileName, "entrezgene_id", test_title, regLabel, emptyRegLabel="None", minGSSize=10, qvalueCutoff=0.1, output_dir = figure_dir)
+
+```
+
+## Look at the changes between early and late stage using the VAE
+
+```{r}
+input_data_dir <- '../data/S050_CCRCC_Clark_Cell2019/sircle/all_patients/all_cpgs/'
+figure_dir <- '../figures/sircle/all_patients/all_cpgs/'
+
+regLabel <- 'Regulation_Grouping_2'
+test_title <- 'RCM_P0.5-R1.0-M0.1'
+# Use the RCM df as the reference (this is how we get the background genes for the clusters for ORA)
+refDf <- read.csv(paste0(input_data_dir, "RCM_all_patients_ccRCC_P0.5-R1.0-M0.1-GENES.csv"))
+
+reg_grps <- c("MDS", "MDS_TMDE", "MDE", "MDE_TMDS", "TMDE", "TMDS", "TPDE", "TPDE_TMDS",  "TPDS", "TPDS_TMDE")
+sircleFileName <- paste0('../data/S050_CCRCC_Clark_Cell2019/sircle/integration/output_data/comparisons/mean_Integrated_comparison_Stage IV-Stage I.csv')
+  # https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-587
+vis_df <- read.csv(sircleFileName)
+for (r in reg_grps) { # VAE_TPDS_07032022
+
+  grpGenes <- subset(vis_df, vis_df[["Regulation_Grouping_2"]] == r)
+  # Run GSEA on the consistently changed genes between late and early stage using the t-stat as the rank
+  GSEA_results <- GSEASetupSircle(grpGenes, paste0("G4_Stage IV-Stage I ", r), gene_name="external_gene_name", stat='Integrated.diff..Stage.IV.Stage.I.',   GSEA_file_dir=GSEA_file_dir, output_dir='../figures/sircle/all_patients/all_cpgs/', pathway_list=pathway_list)
+}
+  
+sircleFileName <- paste0('../data/S050_CCRCC_Clark_Cell2019/sircle/integration/output_data/comparisons/mean_Integrated_comparison_old-young.csv')
+  # https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-587
+vis_df <- read.csv(sircleFileName)
+for (r in reg_grps) { # VAE_TPDS_07032022
+
+  grpGenes <- subset(vis_df, vis_df[["Regulation_Grouping_2"]] == r)
+  # Run GSEA on the consistently changed genes between late and early stage using the t-stat as the rank
+  GSEA_results <- GSEASetupSircle(grpGenes, paste0("G4_old-young ", r), gene_name="external_gene_name", stat='Integrated.diff..old.young.',   GSEA_file_dir=GSEA_file_dir, output_dir='../figures/sircle/all_patients/all_cpgs/', pathway_list=pathway_list)
+}
+
+sircleFileName <- paste0('../data/S050_CCRCC_Clark_Cell2019/sircle/integration/output_data/comparisons/mean_Integrated_comparison_PBRM1-BAP1.csv')
+  # https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-587
+vis_df <- read.csv(sircleFileName)
+for (r in reg_grps) { # VAE_TPDS_07032022
+
+  grpGenes <- subset(vis_df, vis_df[["Regulation_Grouping_2"]] == r)
+  # Run GSEA on the consistently changed genes between late and early stage using the t-stat as the rank
+  GSEA_results <- GSEASetupSircle(grpGenes, paste0("G4_PBRM1-BAP1 ", r), gene_name="external_gene_name", stat='Integrated.diff..PBRM1.BAP1.',   GSEA_file_dir=GSEA_file_dir, output_dir='../figures/sircle/all_patients/all_cpgs/', pathway_list=pathway_list)
+}
+
+```
+
+
+```{r}
+refDf <- read.csv(paste0(input_data_dir, "RCM_all_patients-GENES.csv"))
+test_title <- 'VAE-ONLY'
+sircleFileName <- paste0(input_data_dir, test_title, "_sig_genes_all_patients.csv")
+
+# Run ORA on each regulatory cluster for the genes identified as significantly changed between stage 4 and stage 1
+sircleORAHuman(sircleFileName, "entrezgene_id", test_title, regLabel, emptyRegLabel="None", minGSSize=10, qvalueCutoff=0.1, output_dir = '../figures/sircle/all_patients/all_cpgs/', refDf=refDf)
+```
+
+## Look at immune response markers in single cell data
+
+## Format the single cell data from the paper
+```{r}
+
+library(Seurat)
+library(SeuratData)
+library(loomR)
+library(tidyverse)
+devtools::install_github(repo = 'hhoeflin/hdf5r') # Update hdf5r for stability improvements
+devtools::install_github(repo = 'mojaveazure/loomR', ref = 'develop') # Update loomR for up-to-date functions
+
+install.packages('SeuratDisk')
+
+singleCell <- readRDS('/Users/ariane/Downloads/ccRCC_6pat_Seurat')
+kidney_cc <- UpdateSeuratObject(object = singleCell)
+
+FeaturePlot(kidney_cc, features = c("MET", "BAP1", "SETD2"),  reduction = "reductions.tsne", cols = c("lightgrey", "darkred"), ncol = 3) & theme(plot.title = element_text(size = 10))
+
+tsne_red <- kidney_cc@reductions[['tsne']]
+rna_counts <- kidney_cc@assays[["RNA"]]@counts
+library('Matrix')
+writeMM(rna_counts,file='rna_counts_ccRCC_6pat_Seurat.txt')
+
+gene_ids <- kidney_cc@assays[["RNA"]]@counts@Dimnames[[1]]
+write.csv(gene_ids, 'geneids_ccRCC_6pat_Seurat.csv')
+
+meta_data <- kidney_cc@meta.data
+meta_data <- as.data.frame(meta_data)
+write.csv(meta_data, 'metadata_ccRCC_6pat_Seurat.csv')
+
+tsne_red <- kidney_cc@reductions[['tsne']]
+tsne_red <- as.data.frame(tsne_red@cell.embeddings)
+write.csv(tsne_red, 'tsne_red_ccRCC_6pat_Seurat.csv')
+
+umap_red <- kidney_cc@reductions[['umap']]
+umap_red <- as.data.frame(umap_red@cell.embeddings)
+write.csv(umap_red, 'umap_red_ccRCC_6pat_Seurat.csv')
+
+
+SaveH5Seurat(kidney_cc, filename = "kidney_cc.h5Seurat")
+Convert("kidney_cc.h5Seurat", dest = "h5ad")
+
+```
+
+
+
+

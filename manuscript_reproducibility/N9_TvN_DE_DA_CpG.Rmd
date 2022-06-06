@@ -1,0 +1,550 @@
+---
+title: "Protein and RNAseq DE analyses and CpG differential methylation analysis"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Tumour vs normal comparison
+This notebook compares tumour vs normal samples in the three data types:
+1) Protein data  
+2) RNAseq data   
+3) DNA Methylation data  
+
+## DE DA CpG analysis
+```{r} 
+library("limma")
+library("dplyr")
+library(matrixStats)
+
+##Chdir to source dir if you aren't running from the relative location.
+GSEA_file_dir="../data/S050_CCRCC_Clark_Cell2019/supps/GSEA/"
+source("helper_functions.R")
+
+# Setup the pathways for using GSEA
+KEGG <- read.csv(file.path(GSEA_file_dir,  "c2.cp.kegg.v6.2.symbols.csv"))
+Reactome <- read.csv(file.path(GSEA_file_dir,  "c2.cp.reactome.v6.2.symbols.csv"))
+Biocarta <- read.csv(file.path(GSEA_file_dir, "c2.cp.biocarta.v6.2.symbols.csv"))
+Hallmarks <- read.csv(file.path(GSEA_file_dir,  "h.all.v6.2.symbols.csv"))
+GO_BP <- read.csv(file.path(GSEA_file_dir, "c5.go.bp.v7.2.symbols.csv"))
+GO_CC <- read.csv(file.path(GSEA_file_dir, "c5.go.cc.v7.2.symbols.csv"))
+GO_MF <- read.csv(file.path(GSEA_file_dir, "c5.go.mf.v7.2.symbols.csv"))
+Metabolic <- read.csv(file.path(GSEA_file_dir, "41467_2016_BFncomms13041_MOESM340_ESM.csv"))
+Correction <- read.csv(file.path(GSEA_file_dir, "41467_2016_BFncomms13041_MOESM340_ESM.csv"))
+
+#Run the GSEA analysis
+##1."KEGG", "Reactome", "Biocarta", "Hallmarks"
+pathways <- rbind(KEGG, Reactome, Biocarta, Hallmarks)
+pathway_list <- list()
+for (pathway in unique(pathways$term)) {
+  pathway_list[[pathway]] <- as.character(pathways[pathways$term == pathway, 1])
+}
+```
+
+
+```{r}
+# Do RNAseq analysis on different patient subsets, so we'll need to read in the sample DF
+# and also the RNAseq data.
+figure_dir <- '../figures/tvn/all_patients/'
+input_data_dir <- '../data/S050_CCRCC_Clark_Cell2019/sircle/all_patients/FinalInputData/'
+output_data_dir <- '../data/S050_CCRCC_Clark_Cell2019/sircle/all_patients/RNASubsetAnalysis/'
+rna_file <- 'rna_data_all_patients_ccRCC_sircle.csv'
+sample_file <- 'rna_sample_data_all_patients_ccRCC_sircle.csv'
+rna_df <- read.csv(paste0(input_data_dir, rna_file))
+rna_samples <- read.csv(paste0(input_data_dir, sample_file))
+sa
+
+
+```
+
+```{r}
+# Get stage 1 df
+subset_samples <- rna_samples[rna_samples[,"TumorStage"] == 'Stage I', ]
+subset_data <- rna_df[, append(c('ensembl_gene_id', 'external_gene_name', 'entrezgene_id', 'hgnc_symbol'), subset_samples$FullLabel)]
+new_sample_file_name <- paste0(output_data_dir, 'StageI_', sample_file) 
+new_data_file_name <- paste0(output_data_dir, 'StageI_', rna_file) 
+new_output_file_name <- paste0(output_data_dir, 'DE-StageI_', rna_file) 
+
+write_csv(subset_data, new_data_file_name)
+write_csv(subset_samples, new_sample_file_name)
+pairedPatientDE(new_data_file_name, new_sample_file_name, new_output_file_name, paired=FALSE)
+
+# Do the plottiong
+rna_de_df <- read.csv(new_output_file_name)
+
+# Constant between all analyese
+gene_name <- "external_gene_name"
+entrez_id <- "entrezgene_id"
+logfc_cutoff <- 1.0
+p_cutoff <- 0.05
+q_cutoff <- 0.1
+
+test_title <- 'StageI'
+# Specific for the protein DE
+title <- paste0(test_title, ' RNA')
+logfc <- "logFC_rna"
+pvalue <- "padj_rna"
+stat <- "stat_rna"
+
+# Now run the charts for this (make sure we don't have any NA entrez IDs)
+rna_de_df <- subset(rna_de_df, !is.na(rna_de_df$entrezgene_id))
+rna_de_df <- subset(rna_de_df, !rna_de_df$padj_rna == 0)
+rna_de_df <- subset(rna_de_df, !rna_de_df$pvalue_rna == 0)
+
+runDEplots(rna_de_df, title, gene_name, entrez_id, logfc_cutoff, p_cutoff, q_cutoff, logfc, pvalue, stat, output_data_dir)
+GSEA_results <- GSEASetupSircle(rna_de_df, title, gene_name=gene_name, stat=stat, GSEA_file_dir=GSEA_file_dir, output_dir=output_data_dir, pathway_list=pathway_list)
+```
+
+
+### Stage 4
+```{r}
+# Get stage 1 df
+subset_samples <- rna_samples[rna_samples[,"TumorStage"] == 'Stage IV', ]
+subset_data <- rna_df[, append(c('ensembl_gene_id', 'external_gene_name', 'entrezgene_id', 'hgnc_symbol'), subset_samples$FullLabel)]
+new_sample_file_name <- paste0(output_data_dir, 'StageIV_', sample_file) 
+new_data_file_name <- paste0(output_data_dir, 'StageIV_', rna_file) 
+new_output_file_name <- paste0(output_data_dir, 'DE-StageIV_', rna_file) 
+
+write_csv(subset_data, new_data_file_name)
+write_csv(subset_samples, new_sample_file_name)
+pairedPatientDE(new_data_file_name, new_sample_file_name, new_output_file_name, paired=FALSE)
+
+# Do the plottiong
+rna_de_df <- read.csv(new_output_file_name)
+
+# Constant between all analyese
+gene_name <- "external_gene_name"
+entrez_id <- "entrezgene_id"
+logfc_cutoff <- 1.0
+p_cutoff <- 0.05
+q_cutoff <- 0.1
+
+test_title <- 'StageIV'
+# Specific for the protein DE
+title <- paste0(test_title, ' RNA')
+logfc <- "logFC_rna"
+pvalue <- "padj_rna"
+stat <- "stat_rna"
+
+# Now run the charts for this (make sure we don't have any NA entrez IDs)
+rna_de_df <- subset(rna_de_df, !is.na(rna_de_df$entrezgene_id))
+rna_de_df <- subset(rna_de_df, !rna_de_df$padj_rna == 0)
+rna_de_df <- subset(rna_de_df, !rna_de_df$pvalue_rna == 0)
+
+
+runDEplots(rna_de_df, title, gene_name, entrez_id, logfc_cutoff, p_cutoff, q_cutoff, logfc, pvalue, stat, output_data_dir)
+GSEA_results <- GSEASetupSircle(rna_de_df, title, gene_name=gene_name, stat=stat, GSEA_file_dir=GSEA_file_dir, output_dir=output_data_dir, pathway_list=pathway_list)
+```
+
+
+### Old
+```{r}
+# Get stage 1 df
+subset_samples <- rna_samples[rna_samples[,"AgeGrouped"] == 'old', ]
+subset_data <- rna_df[, append(c('ensembl_gene_id', 'external_gene_name', 'entrezgene_id', 'hgnc_symbol'), subset_samples$FullLabel)]
+new_sample_file_name <- paste0(output_data_dir, 'old_', sample_file) 
+new_data_file_name <- paste0(output_data_dir, 'old_', rna_file) 
+new_output_file_name <- paste0(output_data_dir, 'DE-old_', rna_file) 
+
+write_csv(subset_data, new_data_file_name)
+write_csv(subset_samples, new_sample_file_name)
+pairedPatientDE(new_data_file_name, new_sample_file_name, new_output_file_name, paired=FALSE)
+
+# Do the plottiong
+rna_de_df <- read.csv(new_output_file_name)
+
+# Constant between all analyese
+gene_name <- "external_gene_name"
+entrez_id <- "entrezgene_id"
+logfc_cutoff <- 1.0
+p_cutoff <- 0.05
+q_cutoff <- 0.1
+
+test_title <- 'old'
+# Specific for the protein DE
+title <- paste0(test_title, ' RNA')
+logfc <- "logFC_rna"
+pvalue <- "padj_rna"
+stat <- "stat_rna"
+
+# Now run the charts for this (make sure we don't have any NA entrez IDs)
+rna_de_df <- subset(rna_de_df, !is.na(rna_de_df$entrezgene_id))
+rna_de_df <- subset(rna_de_df, !rna_de_df$padj_rna == 0)
+rna_de_df <- subset(rna_de_df, !rna_de_df$pvalue_rna == 0)
+
+
+runDEplots(rna_de_df, title, gene_name, entrez_id, logfc_cutoff, p_cutoff, q_cutoff, logfc, pvalue, stat, output_data_dir)
+GSEA_results <- GSEASetupSircle(rna_de_df, title, gene_name=gene_name, stat=stat, GSEA_file_dir=GSEA_file_dir, output_dir=output_data_dir, pathway_list=pathway_list)
+```
+
+### Young
+```{r}
+# Get stage 1 df
+subset_samples <- rna_samples[rna_samples[,"AgeGrouped"] == 'young', ]
+subset_data <- rna_df[, append(c('ensembl_gene_id', 'external_gene_name', 'entrezgene_id', 'hgnc_symbol'), subset_samples$FullLabel)]
+new_sample_file_name <- paste0(output_data_dir, 'young_', sample_file) 
+new_data_file_name <- paste0(output_data_dir, 'young_', rna_file) 
+new_output_file_name <- paste0(output_data_dir, 'DE-young_', rna_file) 
+
+write_csv(subset_data, new_data_file_name)
+write_csv(subset_samples, new_sample_file_name)
+pairedPatientDE(new_data_file_name, new_sample_file_name, new_output_file_name, paired=FALSE)
+
+# Do the plottiong
+rna_de_df <- read.csv(new_output_file_name)
+
+# Constant between all analyese
+gene_name <- "external_gene_name"
+entrez_id <- "entrezgene_id"
+logfc_cutoff <- 1.0
+p_cutoff <- 0.05
+q_cutoff <- 0.1
+
+test_title <- 'young'
+# Specific for the protein DE
+title <- paste0(test_title, ' RNA')
+logfc <- "logFC_rna"
+pvalue <- "padj_rna"
+stat <- "stat_rna"
+
+# Now run the charts for this (make sure we don't have any NA entrez IDs)
+rna_de_df <- subset(rna_de_df, !is.na(rna_de_df$entrezgene_id))
+rna_de_df <- subset(rna_de_df, !rna_de_df$padj_rna == 0)
+rna_de_df <- subset(rna_de_df, !rna_de_df$pvalue_rna == 0)
+
+runDEplots(rna_de_df, title, gene_name, entrez_id, logfc_cutoff, p_cutoff, q_cutoff, logfc, pvalue, stat, output_data_dir)
+GSEA_results <- GSEASetupSircle(rna_de_df, title, gene_name=gene_name, stat=stat, GSEA_file_dir=GSEA_file_dir, output_dir=output_data_dir, pathway_list=pathway_list)
+```
+
+
+```{r}
+# Had different protein cutoffs need to do ORA on the protein level for UP and DOWN significant 
+figure_dir <- '../figures/tvn/all_patients/'
+input_data_dir <- '../data/S050_CCRCC_Clark_Cell2019/sircle/all_patients/'
+output_data_dir <- '../data/S050_CCRCC_Clark_Cell2019/sircle/all_patients/'
+
+prot_df <- read.csv(paste0(input_data_dir, 'prot_DE_all_patients_ccRCC_sircle.csv'))
+
+# Constant between all analyese
+gene_name <- "external_gene_name"
+entrez_id <- "entrezgene_id"
+logfc_cutoff <- 0.5
+p_cutoff <- 0.05
+q_cutoff <- 0.1
+
+test_title <- 'all_patients_ccRCC'
+# Specific for the protein DE
+title <- paste0(test_title, ' Protein')
+logfc <- "logFC_protein"
+pvalue <- "padj_protein"
+stat <- "stat_protein"
+
+# Now run the charts for this (make sure we don't have any NA entrez IDs)
+prot_df <- subset(prot_df, !is.na(prot_df$entrezgene_id))
+runDEplots(prot_df, title, gene_name, entrez_id, logfc_cutoff, p_cutoff, q_cutoff, logfc, pvalue, stat, figure_dir)
+GSEA_results <- GSEASetupSircle(prot_df, title, gene_name=gene_name, stat=stat, GSEA_file_dir=GSEA_file_dir, output_dir=figure_dir, pathway_list=pathway_list)
+```
+
+## DOuble check RNA
+```{r}
+
+prot_df <- read.csv(paste0(input_data_dir, 'rna_DE_all_patients_ccRCC_sircle.csv'))
+
+# Constant between all analyese
+gene_name <- "external_gene_name"
+entrez_id <- "entrezgene_id"
+logfc_cutoff <- 1.0
+p_cutoff <- 0.05
+q_cutoff <- 0.1
+
+test_title <- 'all_patients_ccRCC'
+# Specific for the protein DE
+title <- paste0(test_title, ' RNA')
+logfc <- "logFC_rna"
+pvalue <- "padj_rna"
+stat <- "stat_rna"
+
+# Now run the charts for this (make sure we don't have any NA entrez IDs)
+prot_df <- subset(prot_df, !is.na(prot_df$entrezgene_id))
+prot_df <- subset(prot_df, !prot_df$padj_rna == 0)
+prot_df <- subset(prot_df, !prot_df$pvalue_rna == 0)
+
+runDEplots(prot_df, title, gene_name, entrez_id, logfc_cutoff, p_cutoff, q_cutoff, logfc, pvalue, stat, figure_dir)
+GSEA_results <- GSEASetupSircle(prot_df, title, gene_name=gene_name, stat=stat, GSEA_file_dir=GSEA_file_dir, output_dir=figure_dir, pathway_list=pathway_list)
+
+```
+
+## DOuble check RNA
+```{r}
+
+prot_df <- read.csv(paste0(input_data_dir, 'filtered_cpg_DE_all_patients_ccRCC_sircle.csv'))
+
+# Constant between all analyese
+gene_name <- "external_gene_name"
+entrez_id <- "entrezgene_id"
+logfc_cutoff <- 0.1
+p_cutoff <- 0.05
+q_cutoff <- 0.1
+
+test_title <- 'all_patients_ccRCC'
+# Specific for the protein DE
+title <- paste0(test_title, ' CpG')
+logfc <- "CpG_Beta_diff"
+pvalue <- "padj_meth"
+stat <- "CpG_Beta_diff"
+
+# Now run the charts for this (make sure we don't have any NA entrez IDs)
+prot_df <- subset(prot_df, !is.na(prot_df$entrezgene_id))
+runDEplots(prot_df, title, gene_name, entrez_id, logfc_cutoff, p_cutoff, q_cutoff, logfc, pvalue, stat, figure_dir)
+GSEA_results <- GSEASetupSircle(prot_df, title, gene_name=gene_name, stat=stat, GSEA_file_dir=GSEA_file_dir, output_dir=figure_dir, pathway_list=pathway_list)
+
+```
+
+
+```
+
+## Running the DE analyses 
+
+# Run it for each of the datasets
+```{r}
+
+figure_dir <- '../figures/tvn/all_patients/'
+input_data_dir <- '../data/S050_CCRCC_Clark_Cell2019/sircle/all_patients/'
+output_data_dir <- '../data/S050_CCRCC_Clark_Cell2019/sircle/all_patients/'
+
+# Only need to run the TvN comparison because we will be doing the late and early stage comparisons after we do the 
+# tests.
+runDEAll('all_patients_ccRCC', input_data_dir, output_data_dir, GSEA_file_dir, paired=TRUE, output_figure_dir=figure_dir, pathway_list=pathway_list)
+
+
+runDEAll_CPG('all_patients', input_data_dir, output_data_dir, GSEA_file_dir, paired=FALSE, output_figure_dir=figure_dir, pathway_list=pathway_list)
+```
+
+```{r}
+test_title = 'all_patients_ccRCC'
+data_file = file.path(input_data_dir, paste0('rna_data_', test_title, '_sircle.csv'))
+sample_file = file.path(input_data_dir, paste0('rna_sample_data_', test_title, '_sircle.csv'))
+output_file = file.path(output_data_dir, paste0('rna_DE_', test_title, '_sircle.csv'))
+paired = FALSE
+counts <- read.csv(data_file, header = TRUE, sep = ",")
+rownames(counts) <- counts$ensembl_gene_id
+
+experimental_design <- read.csv(sample_file)
+other_info <- counts[, c('external_gene_name', 'entrezgene_id', 'hgnc_symbol')] # Keep the metadata info
+rownames(other_info) <- rownames(counts)
+# Let's make sure our count data is in matrix format and is only the numeric columns i.e. everything but the genes
+count_matrix <- as.matrix(counts[,experimental_design$FullLabel])
+
+count_matrix[is.na(count_matrix)] = 0
+# We now set the row names to be the gene IDs
+rownames(count_matrix) <- rownames(counts) 
+
+# Separate out each of the sample names to be the different experiment conditions
+condition_id <- as.factor(experimental_design$CondId)
+case_id <- as.factor(experimental_design$SafeCases)
+
+# Before getting the means we want to normalise the counts (i.e. so our mean isn't stupidly big)
+dge <- DGEList(counts=count_matrix)
+dge <- calcNormFactors(dge, method="TMM")
+tmm <- cpm(dge)
+
+sample_df = data.frame(case_id = case_id, condition_id=condition_id)
+if (paired == TRUE) {
+  dds_mat <- DESeqDataSetFromMatrix(countData = count_matrix,
+                                    colData = sample_df,
+                                    design = ~case_id + condition_id) # Have patient case as a factor (i.e. a batch correction)
+  
+} else {
+  dds_mat <- DESeqDataSetFromMatrix(countData = count_matrix,
+                                    colData = sample_df,
+                                    design = ~condition_id) # Just do on condition
+  
+}
+
+dds <- estimateSizeFactors(dds_mat)
+
+num_samples_meeting_criteria <- 20  # be strict and enforce that at least half the samples need to meet the criteria (i.e. one full condition)
+num_counts_in_gene <- 10  # They need at least 10 counts
+
+keep <- rowSums(counts(dds_mat) >= num_counts_in_gene) >= num_samples_meeting_criteria
+dds <- dds_mat[keep,] # Only keep the rows with this criteria
+# Now we want to also filter out our other info using the same filter
+other_info_filtered <- other_info[keep,]
+counts_filtered <- counts[keep,]
+tmm_filtered <- tmm[keep, ]
+
+# Log2 the TMM counts for better variance & mean estimation.
+tmm_filtered <- log2(tmm_filtered + 1)
+# Let's print the number of rows
+cat(paste("Dataset dimensions: ", nrow(dds), ncol(dds), "\n"))
+# Run DEseq2
+dds <- DESeq(dds)
+
+# Build results table
+res <- results(dds, independentFiltering=FALSE)
+write.csv(res, file = "RES.csv")
+other_info_filtered <- other_info_filtered[rownames(res), c('external_gene_name', 'entrezgene_id', 'hgnc_symbol')]
+
+# Ensure ordering is correct 
+tmm_filtered <- tmm_filtered[rownames(res), colnames(tmm_filtered)]
+other_info_filtered$logFC_rna <- res$log2FoldChange
+other_info_filtered$stat_rna <- res$stat
+other_info_filtered$pvalue_rna <- res$pvalue
+other_info_filtered$padj_rna <- res$padj
+other_info_filtered$lfcSE_rna <- res$lfcSE
+other_info_filtered$baseMean_rna <- res$baseMean
+other_info_filtered$var_rna <- matrixStats::rowVars(as.matrix(tmm_filtered))
+
+# Add in mean info
+all_rna_df <- cbind(other_info_filtered, tmm_filtered)
+
+write.csv(all_rna_df, file = output_file)
+```
+
+
+
+```{r}
+test_title = 'all_patients_ccRCC'
+data_file = file.path(input_data_dir, paste0('cpg_data_', test_title, '_sircle.csv'))
+sample_file = file.path(input_data_dir, paste0('cpg_sample_data_', test_title, '_sircle.csv'))
+output_file = file.path(output_data_dir, paste0('cpg_DE_', test_title, '_sircle.csv'))
+
+##########   Methylation analysis
+cat(paste("Differential Methylation analysis for: \n", data_file, "\n"))
+  
+#### Import data ####
+cpg_raw <- read.csv(data_file, header = TRUE, sep = ",")
+sample_df <- read.csv(sample_file)
+
+#### Change rownames ####
+rowNames <- unlist(cpg_raw['Locus'])
+cpg_data <- cpg_raw[, sample_df$FullLabel]
+rownames(cpg_data) <- rowNames
+rownames(cpg_raw) <- rowNames
+#### QC/Filtering
+# First remove all NA values
+cpg_data[is.na(cpg_data)] <- 0
+summary(cpg_data)
+
+# Convert data to a matrix & plot the means for the rows
+cpg_data_m <- as.matrix(cpg_data)
+row_means_data <- rowMeans(cpg_data_m)
+hist(row_means_data)
+nrow(cpg_data_m)
+
+# Remove rows with a very small amount of overall DNA methylation
+cpg_data_filtered <- cpg_data_m[row_means_data > 0.05, ]
+cpg_raw_filtered <- cpg_raw[row_means_data > 0.05, ] # Make sure we apply the same filter to our CpG names etc
+nrow(cpg_data_filtered)
+row_means_data <- rowMeans(cpg_data_filtered)
+# hist(row_means_data)
+
+# Remove rows with overly high DNA methylation
+cpg_data_filtered <- cpg_data_filtered[row_means_data < 0.95, ]
+cpg_raw_filtered <- cpg_raw_filtered[row_means_data < 0.95, ] # Make sure we apply the same filter to our CpG names etc
+
+nrow(cpg_data_filtered)
+
+# The function model.matrix is used to generate the design matrix
+cases <- as.factor(sample_df$SafeCases)
+cond_id <- as.factor(sample_df$CondId)
+batch_id <- as.factor(sample_df$batch_id)
+
+if (paired == FALSE) {
+  design = model.matrix(~cond_id)  # Can't do paired in DNA methylation
+} else {
+  design = model.matrix(~cases + cond_id) # This way we're actually using the TCGA or the CPTAC as the batch
+}
+
+# Before running limma we want to do two steps, (following the steps of Miss Methyl)
+# 1) convert to M values 
+# 2) perform limma
+# References: 
+# https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-587
+# https://bioconductor.org/packages/release/bioc/vignettes/missMethyl/inst/doc/missMethyl.html 
+# Add a very small amount so that if we have 0's we don't get an issue with NAs and log2
+cpg_data_M_filtered <- log2((cpg_data_filtered) /(1-cpg_data_filtered))
+# Normalise M values using https://github.com/regRCPqn/regRCPqn, https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0229763
+# Install: https://github.com/regRCPqn/regRCPqn
+# cpg_data_M_filtered <- regRCPqn(cpg_data_M_filtered, "", "", save_ref=FALSE) # Normalising data 
+coef_id <- length(colnames(design))
+fit <- lmFit(cpg_data_M_filtered, design)
+fit2 <- eBayes(fit, robust=TRUE)
+
+# Don't sort it otherwise we won't be able to match the data
+fit2_adj <- topTable(fit2, coef=coef_id, adjust="fdr", sort.by="none", number=1000000) 
+all_cpg_df <- cpg_raw[rownames(fit2_adj), c('Locus', 'chr', 'pos', 'ensembl_gene_id', 'external_gene_name', 'hgnc_symbol', 'entrezgene_id', 'Relation_to_Island', 'UCSC_RefGene_Group', 'GencodeCompV12_Accession_FILT', 'GencodeCompV12_Group_FILT')]
+
+# Add in the statistics from the CpG analysis
+all_cpg_df$logFC_meth <- fit2_adj$logFC
+all_cpg_df$betadiff_meth <- (2^fit2_adj$logFC)/(2^fit2_adj$logFC + 1)
+all_cpg_df$stat_meth <- fit2_adj$t
+all_cpg_df$pvalue_meth <- fit2_adj$P.Value
+all_cpg_df$padj_meth <- fit2_adj$adj.P.Val
+all_cpg_df$B_meth <- fit2_adj$B
+all_cpg_df$mean_M_cpg <- fit2_adj$AveExpr
+all_cpg_df$var_cpg <- matrixStats::rowVars(as.matrix(cpg_data_M_filtered))
+
+all_cpg_df <- cbind(all_cpg_df, cpg_data_filtered)
+
+write.csv(all_cpg_df, output_file)
+```
+
+```{r}
+test_title = 'all_patients_ccRCC'
+data_file = file.path(input_data_dir, paste0('prot_data_', test_title, '_sircle.csv'))
+sample_file = file.path(input_data_dir, paste0('prot_sample_data_', test_title, '_sircle.csv'))
+output_file = file.path(output_data_dir, paste0('prot_DE_', test_title, '_sircle.csv'))
+cat(paste("Differential Abundence analysis for: \n", data_file, "\n"))
+# Do protein analysis on the stage 4 sample
+prot_data <- read.csv(data_file)
+gene_names <- prot_data$external_gene_name
+experimental_design <- read.csv(sample_file)
+data_columns <- experimental_design$FullLabel # get LFQ column numbers
+
+prot_data_mat <- prot_data[, data_columns]
+rownames(prot_data_mat) <- gene_names
+rownames(prot_data) <- gene_names
+# Get the column of interest from the experimental design
+cond <- as.factor(experimental_design$CondId)
+case_id <- as.factor(experimental_design$SafeCases)
+
+# Create a mean and variance columns that we'll add to the final dataframe for both normal and tumour 
+# We use this later in the SIRCLE model
+tumors <- subset(experimental_design, CondId == 1)
+normals <- subset(experimental_design, CondId == 0)
+tumor_mean <- rowMeans(prot_data[, tumors$FullLabel])
+normal_mean <- rowMeans(prot_data[, normals$FullLabel])
+tumor_var <- rowVars(as.matrix(prot_data[, tumors$FullLabel]))
+normal_var <- rowVars(as.matrix(prot_data[, normals$FullLabel]))
+if (paired == TRUE) {
+  design <- model.matrix(~case_id + cond) # We want to perform it on each patient (i.e. since we have matched samples)
+} else {
+  design <- model.matrix(~cond) # We didn't have matching patient info
+}
+# Limma is good for detecting differentially abundent proteins
+fit <- lmFit(prot_data_mat, design)
+fit2 <- eBayes(fit, robust=TRUE) # Use robust:  https://www.biostars.org/p/496806/, https://support.bioconductor.org/p/118495/
+
+# Keep in mind the condition of interest (tumour vs normal) is always the final column in the design
+fit2_adj <- topTable(fit2, coef=length(colnames(design)), adjust="fdr", sort.by="none", number=1000000) 
+
+# Create the dataframe to return
+all_prot_df <- prot_data[rownames(fit2_adj), colnames(prot_data)]
+prot_data_mat <- prot_data_mat[rownames(fit2_adj), colnames(prot_data_mat)]
+# Add in the statistics from the DA analysis
+all_prot_df$logFC_protein <- fit2_adj$logFC
+all_prot_df$stat_protein <- fit2_adj$t
+all_prot_df$pvalue_protein <- fit2_adj$P.Value
+all_prot_df$padj_protein <- fit2_adj$adj.P.Val
+all_prot_df$B_protein <- fit2_adj$B
+all_prot_df$mean_protein <- fit2_adj$AveExpr
+all_prot_df$var_protein <- matrixStats::rowVars(as.matrix(prot_data_mat))
+
+write.csv(all_prot_df, output_file, row.names = FALSE)
+
+```
