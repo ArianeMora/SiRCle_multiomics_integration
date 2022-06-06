@@ -1,0 +1,7 @@
+{"loss": {"loss_type": "mse", "distance_metric": "mmd", "mmd_weight": 1.0},
+  "encoding": {"layers": [{"num_nodes": 128, "activation_fn": "relu"}]},
+  "decoding": {"layers": [{"num_nodes": 128, "activation_fn": "relu"}]},
+  "latent": {"num_nodes": 10},
+  "scale_data": 1,
+  "optimiser": {"params": {"learning_rate": 0.01}, "name": "adam"}
+}
