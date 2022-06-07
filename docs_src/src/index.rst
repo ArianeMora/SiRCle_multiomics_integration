@@ -101,6 +101,7 @@ Link to preprint
    examples/N17_SingleCell_setup
    examples/N17_singlecell_StageIV-StageI
    examples/N18_singlecell_PBRM1-BAP1
+   examples/Benchmarking
 
 .. toctree::
    :caption: About
