@@ -17,9 +17,12 @@ library(clusterProfiler)
 library(svglite)
 library(sircle)
 # For running the immune cell shit install.packages("getopt")
-output_dir <- "../figures/sircle/"
 source("helper_functions.R")
-GSEA_file_dir="../data/S050_CCRCC_Clark_Cell2019/supps/GSEA/"
+
+GSEA_file_dir <- '../data/raw_downloads/supps/GSEA/'
+figure_dir <- '../figures/'
+input_data_dir <- '../data/sircle/F1_DE_input_TvN/'
+output_data_dir <- '../data/sircle/F2_DE_output_TvN/'
  
 #Import the pathways:
 KEGG <- read.csv(file.path(GSEA_file_dir,  "c2.cp.kegg.v6.2.symbols.csv"))
@@ -31,6 +34,7 @@ GO_CC <- read.csv(file.path(GSEA_file_dir, "c5.go.cc.v7.2.symbols.csv"))
 GO_MF <- read.csv(file.path(GSEA_file_dir, "c5.go.mf.v7.2.symbols.csv"))
 Metabolic <- read.csv(file.path(GSEA_file_dir, "41467_2016_BFncomms13041_MOESM340_ESM.csv"))
 Correction <- read.csv(file.path(GSEA_file_dir, "41467_2016_BFncomms13041_MOESM340_ESM.csv"))
+
 #Run the GSEA analysis
 ##1."KEGG", "Reactome", "Biocarta", "Hallmarks"
 pathways <- rbind(KEGG, Reactome, Biocarta, Hallmarks)
@@ -114,52 +118,6 @@ sircleFileName <- paste0(input_data_dir, test_title, "_sig_genes_all_patients.cs
 # Run ORA on each regulatory cluster for the genes identified as significantly changed between stage 4 and stage 1
 sircleORAHuman(sircleFileName, "entrezgene_id", test_title, regLabel, emptyRegLabel="None", minGSSize=10, qvalueCutoff=0.1, output_dir = '../figures/sircle/all_patients/all_cpgs/', refDf=refDf)
 ```
-
-## Look at immune response markers in single cell data
-
-## Format the single cell data from the paper
-```{r}
-
-library(Seurat)
-library(SeuratData)
-library(loomR)
-library(tidyverse)
-devtools::install_github(repo = 'hhoeflin/hdf5r') # Update hdf5r for stability improvements
-devtools::install_github(repo = 'mojaveazure/loomR', ref = 'develop') # Update loomR for up-to-date functions
-
-install.packages('SeuratDisk')
-
-singleCell <- readRDS('/Users/ariane/Downloads/ccRCC_6pat_Seurat')
-kidney_cc <- UpdateSeuratObject(object = singleCell)
-
-FeaturePlot(kidney_cc, features = c("MET", "BAP1", "SETD2"),  reduction = "reductions.tsne", cols = c("lightgrey", "darkred"), ncol = 3) & theme(plot.title = element_text(size = 10))
-
-tsne_red <- kidney_cc@reductions[['tsne']]
-rna_counts <- kidney_cc@assays[["RNA"]]@counts
-library('Matrix')
-writeMM(rna_counts,file='rna_counts_ccRCC_6pat_Seurat.txt')
-
-gene_ids <- kidney_cc@assays[["RNA"]]@counts@Dimnames[[1]]
-write.csv(gene_ids, 'geneids_ccRCC_6pat_Seurat.csv')
-
-meta_data <- kidney_cc@meta.data
-meta_data <- as.data.frame(meta_data)
-write.csv(meta_data, 'metadata_ccRCC_6pat_Seurat.csv')
-
-tsne_red <- kidney_cc@reductions[['tsne']]
-tsne_red <- as.data.frame(tsne_red@cell.embeddings)
-write.csv(tsne_red, 'tsne_red_ccRCC_6pat_Seurat.csv')
-
-umap_red <- kidney_cc@reductions[['umap']]
-umap_red <- as.data.frame(umap_red@cell.embeddings)
-write.csv(umap_red, 'umap_red_ccRCC_6pat_Seurat.csv')
-
-
-SaveH5Seurat(kidney_cc, filename = "kidney_cc.h5Seurat")
-Convert("kidney_cc.h5Seurat", dest = "h5ad")
-
-```
-
 
 
 
