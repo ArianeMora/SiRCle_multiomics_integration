@@ -1,0 +1,7 @@
+for g in grps:
+    old_genes = old[old["Regulatory Labels"] == g]["external_gene_name"].values
+    new_genes = new_df[new_df["RegulatoryLabels"] == g]["external_gene_name"].values
+    for og in old_genes:
+        if og not in new_genes:
+            print(og)
+    print(len(old_genes), len(new_genes), g)

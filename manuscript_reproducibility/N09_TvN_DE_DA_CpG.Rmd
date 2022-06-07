@@ -29,8 +29,6 @@ figure_dir <- '../figures/'
 input_data_dir <- '../data/sircle/F1_DE_input_TvN/'
 output_data_dir <- '../data/sircle/F2_DE_output_TvN/'
 
-
-
 # Setup the pathways for using GSEA
 KEGG <- read.csv(file.path(GSEA_file_dir,  "c2.cp.kegg.v6.2.symbols.csv"))
 Reactome <- read.csv(file.path(GSEA_file_dir,  "c2.cp.reactome.v6.2.symbols.csv"))
@@ -51,6 +49,10 @@ for (pathway in unique(pathways$term)) {
 }
 ```
 
+```{r}
+
+library(edgeR)
+```
 
 ## Perform differential analysis on methylation, RNAseq and Protein data
 ```{r}
