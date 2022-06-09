@@ -49,10 +49,6 @@ for (pathway in unique(pathways$term)) {
 }
 ```
 
-```{r}
-
-library(edgeR)
-```
 
 ## Perform differential analysis on methylation, RNAseq and Protein data
 ```{r}
@@ -64,3 +60,31 @@ runDEAll('all_patients_ccRCC', input_data_dir, output_data_dir, GSEA_file_dir, p
 
 ```
 
+## Look at TvN for stage IV patients
+```{r}
+# Do RNAseq analysis on different patient subsets, so we'll need to read in the sample DF
+# and also the RNAseq data.
+# Only need to run the TvN comparison because we will be doing the late and early stage comparisons after we do the 
+# tests.
+runDEAll('Stage IV', input_data_dir, output_data_dir, GSEA_file_dir, paired=FALSE, output_figure_dir=figure_dir, pathway_list=pathway_list)
+```
+
+## Look at TvN for stage I patients
+```{r}
+# Do RNAseq analysis on different patient subsets, so we'll need to read in the sample DF
+# and also the RNAseq data.
+# Only need to run the TvN comparison because we will be doing the late and early stage comparisons after we do the 
+# tests.
+runDEAll('Stage I', input_data_dir, output_data_dir, GSEA_file_dir, paired=FALSE, output_figure_dir=figure_dir, pathway_list=pathway_list)
+```
+
+## Finally look at Tumour vs Tumour for Stage IV vs Stage I
+
+## Look at TvN for stage I patients
+```{r}
+# Do RNAseq analysis on different patient subsets, so we'll need to read in the sample DF
+# and also the RNAseq data.
+# Only need to run the TvN comparison because we will be doing the late and early stage comparisons after we do the 
+# tests.
+runDEAll('Stage IV vs Stage I', input_data_dir, output_data_dir, GSEA_file_dir, paired=FALSE, output_figure_dir=figure_dir, pathway_list=pathway_list)
+```

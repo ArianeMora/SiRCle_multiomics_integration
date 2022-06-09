@@ -470,6 +470,8 @@ pairedPatientDMC <- function(data_file, sample_file, output_file, paired=FALSE) 
 ### Running each of the plots for the DE analyses
 runDEplots <- function(data, title, gene_name, entrez_id, logfc_cutoff, p_cutoff, q_cutoff, logfc,  pvalue, stat, output_dir) {
   # Volcano of the data
+  # Now run the charts for this (make sure we don't have any NA entrez IDs)
+
   VolcanoPlotSircle(data, gene_name, pvalue=pvalue, log_fc=logfc, p_cutoff=p_cutoff, 
                     logfc_cutoff=logfc_cutoff, title=title, subtitle="Data", output_dir=output_dir)
   
@@ -495,7 +497,7 @@ runDEAll <- function(test_title, input_data_dir, output_data_dir, GSEA_file_dir,
   # Constant between all analyese
   gene_name <- "external_gene_name"
   entrez_id <- "entrezgene_id"
-  logfc_cutoff <- 1.0
+  logfc_cutoff <- 0.5
   p_cutoff <- 0.05
   q_cutoff <- 0.1
   
@@ -527,9 +529,12 @@ runDEAll <- function(test_title, input_data_dir, output_data_dir, GSEA_file_dir,
   output_dir <- file.path(output_data_dir, 'Figures', 'RNAseq')
   rna_df <- subset(rna_df, !is.na(rna_df$entrezgene_id))
   rna_df[is.na(rna_df)] <- 0 # Replace NAs
+  rna_de_df <- subset(rna_df, !is.na(rna_df$entrezgene_id))
+  rna_de_df <- subset(rna_de_df, !rna_de_df$padj_rna == 0)
+  rna_de_df <- subset(rna_de_df, !rna_de_df$pvalue_rna == 0)
   x <- tryCatch(
     {
-      runDEplots(rna_df, title, gene_name, entrez_id, logfc_cutoff, p_cutoff, q_cutoff, logfc, pvalue, stat, output_figure_dir)
+      runDEplots(rna_de_df, title, gene_name, entrez_id, logfc_cutoff, p_cutoff, q_cutoff, logfc, pvalue, stat, output_figure_dir)
     },
     error = function(e){
       print(e)
