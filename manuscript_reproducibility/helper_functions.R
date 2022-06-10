@@ -525,6 +525,7 @@ runDEAll <- function(test_title, input_data_dir, output_data_dir, GSEA_file_dir,
   pvalue <- "padj_rna"
   gene_name <- "external_gene_name"
   stat <- 'stat_rna'
+  logfc_cutoff <- 1.0
   # put all the GSEA results in one directory
   output_dir <- file.path(output_data_dir, 'Figures', 'RNAseq')
   rna_df <- subset(rna_df, !is.na(rna_df$entrezgene_id))
@@ -570,9 +571,12 @@ runDEAll <- function(test_title, input_data_dir, output_data_dir, GSEA_file_dir,
   
   dmc_df <- subset(dmc_df, !is.na(dmc_df$entrezgene_id))
   dmc_df[is.na(dmc_df)] <- 0 # Replace NAsx
+  dmc_de_df <- subset(dmc_df, !is.na(rna_df$entrezgene_id))
+  dmc_de_df <- subset(dmc_de_df, !rna_de_df$padj_rna == 0)
+  dmc_de_df <- subset(dmc_de_df, !rna_de_df$pvalue_rna == 0)
   x <- tryCatch(
     {
-      runDEplots(dmc_df, title, gene_name, entrez_id, logfc_cutoff, p_cutoff, q_cutoff, logfc, pvalue, stat, output_figure_dir)
+      runDEplots(dmc_de_df, title, gene_name, entrez_id, logfc_cutoff, p_cutoff, q_cutoff, logfc, pvalue, stat, output_figure_dir)
     },
     error = function(e){
       print(e)
