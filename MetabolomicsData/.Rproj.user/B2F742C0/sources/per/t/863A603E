@@ -1,0 +1,28 @@
+{
+    "id": "863A603E",
+    "path": "~/GitHub/sircle_private/figures/Metabolism_CleanedForPublication_20.06.2022/MetabolomicsData/Metabolomics.Rmd",
+    "project_path": "Metabolomics.Rmd",
+    "type": "r_markdown",
+    "hash": "1516129636",
+    "contents": "",
+    "dirty": false,
+    "created": 1655725633458.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "chunk_output_type": "console",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "601,0",
+        "scrollLine": "586",
+        "docOutlineVisible": "1"
+    },
+    "folds": "484|97|534|0|\n",
+    "lastKnownWriteTime": 1655727528,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1655727528187,
+    "read_only": false,
+    "read_only_alternatives": []
+}
