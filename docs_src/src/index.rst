@@ -51,7 +51,9 @@ Note Christina and Ariane are equal joint first authors and the authors may swap
 
 Abstract
 ========
-ToDo.
+Clear cell renal cell carcinoma (ccRCC) tumours develop and progress via complex remodelling of the kidney epigenome, transcriptome, proteome, and metabolome. Given the subsequent tumour and inter-patient heterogeneity, drug-based treatments report limited success, calling for multi-omics studies to extract regulatory relationships, and ultimately, to develop targeted therapies. However, current methods are unable to extract nonlinear multi-omics perturbations.
+
+Here, we present SiRCle (Signature Regulatory Clustering), a novel method to integrate DNA methylation, RNA-seq and proteomics data. Applying SiRCle to a case study of ccRCC, we disentangle the layer (DNA methylation, transcription and/or translation) where dysregulation first occurs and find the primary biological processes altered. Next, we detect regulatory differences between patient subsets by using a variational autoencoder to integrate omics’ data followed by statistical comparisons on the integrated space. In ccRCC patients, SiRCle allows to identify metabolic enzymes and cell-type-specific markers associated with survival along with the likely molecular driver behind the gene’s perturbations.
 
 
 .. figure:: _static/summary.png
@@ -101,6 +103,9 @@ Link to preprint
    examples/N17_SingleCell_setup
    examples/N17_singlecell_StageIV-StageI
    examples/N18_singlecell_PBRM1-BAP1
+   examples/N20_Metabolomics_TvN
+   examples/N21_Metabolomics_RCM
+   examples/N22_Metabolomics_VAE
    examples/Benchmarking
 
 .. toctree::
