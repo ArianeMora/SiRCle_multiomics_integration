@@ -1,0 +1,368 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Set up single cell files &mdash; SiRCle_multiomics_integration 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../_static/logo.png"/>
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="https://github.com/ArianeMora/SiRCle_multiomics_integration/examples/N17_SingleCell_setup.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../_static/custom.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Notebook for Single cell analysis using integrated genes Stage IV vs Stage I" href="N17_singlecell_StageIV-StageI.html" />
+    <link rel="prev" title="GSEA on the integrated VAE value" href="N16_Integration_GSEA.html" />
+ 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Package info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">SUMMARY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html#abstract">Abstract</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installing/index.html">Installing SiRCle</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reproducibility</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="N01_RNAProcessing.html">Notebook for RNA processing part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N02_ClinicalProcessing.html">Notebook for Clinical processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N03_protein_imputation.html">Protein Imputation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N04_ProteinProcessing.html">Notebook for Protein processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N05_MethProcessing.html">Notebook for Methylation processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N06_PhosphoProteinProcessing.html">Notebook for Phospho-proteoimcs peptide processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N07_RNAProcessing.html">Notebook for RNA processing part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N08_DatasetGeneration.html">Notebook for Generating datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N09_TvN_DE_DA_CpG.html">Tumour vs normal comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N10_MethylationFilter.html">Notebook for Filtering CpGs to Genes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N11_SiRCle_RCM.html">Notebook for performing SiRCle clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N12_SiRCle_ORA_GSEA.html">ORA for SiRCle clusters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N13_SiRCle_ORA_vis.html">Notebook for Over Representation Analysis Visualisation for SiRCle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N14_TF.html">Notebook for TF analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N15_VAE_Integration.html">Notebook for VAE integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N16_Integration_GSEA.html">GSEA on the integrated VAE value</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Set up single cell files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#look-at-immune-response-markers-in-single-cell-data">Look at immune response markers in single cell data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#summary-from-single-cell-paper">Summary from single cell paper:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#figure-2">Figure 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-details">Data details</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#format-the-single-cell-data-from-the-paper">Format the single cell data from the paper</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="N17_singlecell_StageIV-StageI.html">Notebook for Single cell analysis using integrated genes Stage IV vs Stage I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N18_singlecell_PBRM1-BAP1.html">Notebook for Single cell analysis using integrated genes for PBRM1 vs BAP1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N20_Metabolomics_TvN.html">Notebook for metabolomics analysis using publicly available data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N21_Metabolomics_RCM.html">Notebook for RCM data with metabolic pathways</a></li>
+<li class="toctree-l1"><a class="reference internal" href="N22_Metabolomics_VAE.html">Notebook for VAE data with metabolic pathways</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Benchmarking.html">Notebook for MOMIX benchmarking</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Change log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SiRCle_multiomics_integration</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content style-external-links">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Set up single cell files</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            
+              <a href="https://github.com/arianemora/SiRCle_multiomics_integration/blob/main/docs_src/src/examples/N17_SingleCell_setup.md" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="set-up-single-cell-files">
+<h1>Set up single cell files<a class="headerlink" href="#set-up-single-cell-files" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="look-at-immune-response-markers-in-single-cell-data">
+<h2>Look at immune response markers in single cell data<a class="headerlink" href="#look-at-immune-response-markers-in-single-cell-data" title="Permalink to this headline">¶</a></h2>
+<p>The single cell data comes from:
+https://www.sciencedirect.com/science/article/pii/S1535610821001653?via%3Dihub</p>
+<ul class="simple">
+<li><p>Single-cell RNA-seq reveals the architecture of the ccRCC immune microenvironment</p></li>
+<li><p>Multiregional immune phenotypes integrated with bulk RNA-seq and tumor pathology</p></li>
+<li><p>TCR usage varies by phenotype and defines T cell differentiation trajectories</p></li>
+<li><p>Signatures of tissue-resident T cells and TAMs predict clinical outcome</p></li>
+</ul>
+<div class="section" id="summary-from-single-cell-paper">
+<h3>Summary from single cell paper:<a class="headerlink" href="#summary-from-single-cell-paper" title="Permalink to this headline">¶</a></h3>
+<p>Clear cell renal cell carcinomas (ccRCCs) are highly immune infiltrated, but the effect of immune heterogeneity on clinical outcome in ccRCC has not been fully characterized. Here we perform paired single-cell RNA (scRNA) and T cell receptor (TCR) sequencing of 167,283 cells from multiple tumor regions, lymph node, normal kidney, and peripheral blood of two immune checkpoint blockade (ICB)-naïve and four ICB-treated patients to map the ccRCC immune landscape. We detect extensive heterogeneity within and between patients, with enrichment of CD8A+ tissue-resident T cells in a patient responsive to ICB and tumor-associated macrophages (TAMs) in a resistant patient. A TCR trajectory framework suggests distinct T cell differentiation pathways between patients responding and resistant to ICB. Finally, scRNA-derived signatures of tissue-resident T cells and TAMs are associated with response to ICB and targeted therapies across multiple independent cohorts. Our study establishes a multimodal interrogation of the cellular programs underlying therapeutic efficacy in ccRCC.</p>
+</div>
+<div class="section" id="figure-2">
+<h3>Figure 2<a class="headerlink" href="#figure-2" title="Permalink to this headline">¶</a></h3>
+<p>Mainly we’re interested in the UMAP from Figure 2: Immune landscape of patients with ccRCC at single-cell resolution</p>
+<p>(A) UMAP embedding of transcriptional profiles from all patients and samples (n = 167,283). Each dot represents a single cell, and colors represent clusters denoted by inferred cell type.</p>
+</div>
+<div class="section" id="data-details">
+<h3>Data details<a class="headerlink" href="#data-details" title="Permalink to this headline">¶</a></h3>
+<p>Data were downloaded from https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?analysis=SRZ190804</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ccRCC_6pat_Seurat</span>	<span class="mf">23.4</span><span class="n">Gb</span>	<span class="mi">2021</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">26</span> <span class="mi">10</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">14</span>	<span class="n">c26b3e222bcf6d1f40ef9112864bc9f7</span>
+<span class="n">ccRCC_6pat_cell_annotations</span><span class="o">.</span><span class="n">txt</span>	<span class="mf">20.2</span><span class="n">Mb</span>	<span class="mi">2021</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">26</span> <span class="mi">10</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">30</span>	<span class="mi">9</span><span class="n">c8f646ec8a1f54fa97c2f1524d505b3</span>
+<span class="n">ccRCC_TCRs</span><span class="o">.</span><span class="n">txt</span>	<span class="mf">3.7</span><span class="n">Mb</span>	<span class="mi">2021</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">26</span> <span class="mi">10</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">31</span>	<span class="mi">204982</span><span class="n">b821836f39950627a642218f9f</span>
+<span class="n">ccRCC_regions</span><span class="o">.</span><span class="n">txt</span>	<span class="mi">348</span><span class="n">b</span>	<span class="mi">2021</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">26</span> <span class="mi">10</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">32</span>	<span class="n">af230043d451b477dc44386a0d26d075</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="format-the-single-cell-data-from-the-paper">
+<h2>Format the single cell data from the paper<a class="headerlink" href="#format-the-single-cell-data-from-the-paper" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="n">library</span><span class="p">(</span><span class="n">Seurat</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">SeuratData</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">loomR</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+<span class="n">devtools</span><span class="p">::</span><span class="n">install_github</span><span class="p">(</span><span class="n">repo</span> <span class="o">=</span> <span class="s1">&#39;hhoeflin/hdf5r&#39;</span><span class="p">)</span> <span class="c1"># Update hdf5r for stability improvements</span>
+<span class="n">devtools</span><span class="p">::</span><span class="n">install_github</span><span class="p">(</span><span class="n">repo</span> <span class="o">=</span> <span class="s1">&#39;mojaveazure/loomR&#39;</span><span class="p">,</span> <span class="n">ref</span> <span class="o">=</span> <span class="s1">&#39;develop&#39;</span><span class="p">)</span> <span class="c1"># Update loomR for up-to-date functions</span>
+
+<span class="n">install</span><span class="o">.</span><span class="n">packages</span><span class="p">(</span><span class="s1">&#39;SeuratDisk&#39;</span><span class="p">)</span>
+
+<span class="n">singleCell</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="s1">&#39;../data/raw_downloads/single_cell/ccRCC_6pat_Seurat&#39;</span><span class="p">)</span>
+<span class="n">output_folder</span> <span class="o">&lt;-</span> <span class="s1">&#39;../data/raw_downloads/single_cell/&#39;</span>
+<span class="n">kidney_cc</span> <span class="o">&lt;-</span> <span class="n">UpdateSeuratObject</span><span class="p">(</span><span class="nb">object</span> <span class="o">=</span> <span class="n">singleCell</span><span class="p">)</span>
+
+<span class="n">FeaturePlot</span><span class="p">(</span><span class="n">kidney_cc</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">&quot;MET&quot;</span><span class="p">,</span> <span class="s2">&quot;BAP1&quot;</span><span class="p">,</span> <span class="s2">&quot;SETD2&quot;</span><span class="p">),</span>  <span class="n">reduction</span> <span class="o">=</span> <span class="s2">&quot;reductions.tsne&quot;</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">,</span> <span class="s2">&quot;darkred&quot;</span><span class="p">),</span> <span class="n">ncol</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">theme</span><span class="p">(</span><span class="n">plot</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">tsne_red</span> <span class="o">&lt;-</span> <span class="n">kidney_cc</span><span class="nd">@reductions</span><span class="p">[[</span><span class="s1">&#39;tsne&#39;</span><span class="p">]]</span>
+<span class="n">rna_counts</span> <span class="o">&lt;-</span> <span class="n">kidney_cc</span><span class="nd">@assays</span><span class="p">[[</span><span class="s2">&quot;RNA&quot;</span><span class="p">]]</span><span class="nd">@counts</span>
+<span class="n">library</span><span class="p">(</span><span class="s1">&#39;Matrix&#39;</span><span class="p">)</span>
+<span class="n">writeMM</span><span class="p">(</span><span class="n">rna_counts</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">paste0</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s1">&#39;rna_counts_ccRCC_6pat_Seurat.txt&#39;</span><span class="p">))</span>
+
+<span class="n">gene_ids</span> <span class="o">&lt;-</span> <span class="n">kidney_cc</span><span class="nd">@assays</span><span class="p">[[</span><span class="s2">&quot;RNA&quot;</span><span class="p">]]</span><span class="nd">@counts@Dimnames</span><span class="p">[[</span><span class="mi">1</span><span class="p">]]</span>
+<span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">gene_ids</span><span class="p">,</span> <span class="n">paste0</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s1">&#39;geneids_ccRCC_6pat_Seurat.csv&#39;</span><span class="p">))</span>
+
+<span class="n">meta_data</span> <span class="o">&lt;-</span> <span class="n">kidney_cc</span><span class="nd">@meta</span><span class="o">.</span><span class="n">data</span>
+<span class="n">meta_data</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">meta_data</span><span class="p">)</span>
+<span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">meta_data</span><span class="p">,</span> <span class="s1">&#39;metadata_ccRCC_6pat_Seurat.csv&#39;</span><span class="p">)</span>
+
+<span class="n">tsne_red</span> <span class="o">&lt;-</span> <span class="n">kidney_cc</span><span class="nd">@reductions</span><span class="p">[[</span><span class="s1">&#39;tsne&#39;</span><span class="p">]]</span>
+<span class="n">tsne_red</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">tsne_red</span><span class="nd">@cell</span><span class="o">.</span><span class="n">embeddings</span><span class="p">)</span>
+<span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">tsne_red</span><span class="p">,</span> <span class="n">paste0</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s1">&#39;tsne_red_ccRCC_6pat_Seurat.csv&#39;</span><span class="p">))</span>
+
+<span class="n">umap_red</span> <span class="o">&lt;-</span> <span class="n">kidney_cc</span><span class="nd">@reductions</span><span class="p">[[</span><span class="s1">&#39;umap&#39;</span><span class="p">]]</span>
+<span class="n">umap_red</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">umap_red</span><span class="nd">@cell</span><span class="o">.</span><span class="n">embeddings</span><span class="p">)</span>
+<span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">umap_red</span><span class="p">,</span> <span class="n">paste0</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s1">&#39;umap_red_ccRCC_6pat_Seurat.csv&#39;</span><span class="p">))</span>
+
+<span class="n">SaveH5Seurat</span><span class="p">(</span><span class="n">kidney_cc</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">paste0</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s2">&quot;kidney_cc.h5Seurat&quot;</span><span class="p">))</span>
+<span class="n">Convert</span><span class="p">(</span><span class="n">paste0</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="s2">&quot;kidney_cc.h5Seurat&quot;</span><span class="p">),</span> <span class="n">dest</span> <span class="o">=</span> <span class="s2">&quot;h5ad&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="N17_singlecell_StageIV-StageI.html" class="btn btn-neutral float-right" title="Notebook for Single cell analysis using integrated genes Stage IV vs Stage I" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="N16_Integration_GSEA.html" class="btn btn-neutral float-left" title="GSEA on the integrated VAE value" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, Ariane Mora and Christina Schmidt.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

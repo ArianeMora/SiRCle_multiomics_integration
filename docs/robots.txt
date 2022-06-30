@@ -1,0 +1,3 @@
+User-agent: *
+
+Sitemap: https://arianemora.github.io/SiRCle_multiomics_integration/sitemap.xml

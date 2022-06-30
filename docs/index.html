@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>SiRCle (Signature Regulatory Clustering) model integration reveals mechanisms of phenotype regulation in renal cancer &mdash; SiRCle_multiomics_integration 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/logo.png"/>
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="https://github.com/ArianeMora/SiRCle_multiomics_integration/index.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="_static/custom.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="SUMMARY" href="about.html" />
+ 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#">
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Package info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">SUMMARY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html#abstract">Abstract</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing/index.html">Installing SiRCle</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reproducibility</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/N01_RNAProcessing.html">Notebook for RNA processing part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N02_ClinicalProcessing.html">Notebook for Clinical processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N03_protein_imputation.html">Protein Imputation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N04_ProteinProcessing.html">Notebook for Protein processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N05_MethProcessing.html">Notebook for Methylation processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N06_PhosphoProteinProcessing.html">Notebook for Phospho-proteoimcs peptide processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N07_RNAProcessing.html">Notebook for RNA processing part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N08_DatasetGeneration.html">Notebook for Generating datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N09_TvN_DE_DA_CpG.html">Tumour vs normal comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N10_MethylationFilter.html">Notebook for Filtering CpGs to Genes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N11_SiRCle_RCM.html">Notebook for performing SiRCle clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N12_SiRCle_ORA_GSEA.html">ORA for SiRCle clusters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N13_SiRCle_ORA_vis.html">Notebook for Over Representation Analysis Visualisation for SiRCle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N14_TF.html">Notebook for TF analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N15_VAE_Integration.html">Notebook for VAE integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N16_Integration_GSEA.html">GSEA on the integrated VAE value</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N17_SingleCell_setup.html">Set up single cell files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N17_singlecell_StageIV-StageI.html">Notebook for Single cell analysis using integrated genes Stage IV vs Stage I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N18_singlecell_PBRM1-BAP1.html">Notebook for Single cell analysis using integrated genes for PBRM1 vs BAP1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N20_Metabolomics_TvN.html">Notebook for metabolomics analysis using publicly available data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N21_Metabolomics_RCM.html">Notebook for RCM data with metabolic pathways</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N22_Metabolomics_VAE.html">Notebook for VAE data with metabolic pathways</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/Benchmarking.html">Notebook for MOMIX benchmarking</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">SiRCle_multiomics_integration</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content style-external-links">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>SiRCle (Signature Regulatory Clustering) model integration reveals mechanisms of phenotype regulation in renal cancer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            
+              <a href="https://github.com/arianemora/SiRCle_multiomics_integration/blob/main/docs_src/src/index.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="sircle-signature-regulatory-clustering-model-integration-reveals-mechanisms-of-phenotype-regulation-in-renal-cancer">
+<h1>SiRCle (Signature Regulatory Clustering) model integration reveals mechanisms of phenotype regulation in renal cancer<a class="headerlink" href="#sircle-signature-regulatory-clustering-model-integration-reveals-mechanisms-of-phenotype-regulation-in-renal-cancer" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="information">
+<h2>Information<a class="headerlink" href="#information" title="Permalink to this headline">¶</a></h2>
+<p>This site hosts the information associated with the paper: <strong>SiRCle (Signature Regulatory Clustering) model integration reveals mechanisms of phenotype regulation in renal cancer</strong>.
+Here we provide the code and data used for all the analyses in the paper and link to the packages we developed as part of
+producing the paper.</p>
+<div class="section" id="links-to-analyses-and-data">
+<h3>Links to analyses and data<a class="headerlink" href="#links-to-analyses-and-data" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Preprint: <a class="reference external" href="X">bioRxiv</a></p></li>
+<li><p>HTML outputs are available on the left panel</p></li>
+<li><p>Code and processed data is available at: <a class="reference external" href="https://github.com/ArianeMora/mouseCNS_vae">here</a></p></li>
+<li><p>Data can be downloaded here: …</p></li>
+</ul>
+</div>
+<div class="section" id="places-where-this-or-a-package-we-developed-for-this-has-been-presented">
+<h3>Places where this (or a package we developed for this) has been presented<a class="headerlink" href="#places-where-this-or-a-package-we-developed-for-this-has-been-presented" title="Permalink to this headline">¶</a></h3>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 50%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Date</p></th>
+<th class="head"><p>Conference</p></th>
+<th class="head"><p>Type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>28 April 2021</p></td>
+<td><p>Melbourne bioinformatics seminar series</p></td>
+<td><p>Presentation</p></td>
+</tr>
+<tr class="row-odd"><td><p>25 May 2021</p></td>
+<td><p><a class="reference external" href="linktovisbi/">Visbi</a></p></td>
+<td><p>Poster</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="authors">
+<h2>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h2>
+<p>Ariane Mora^1, Christina Schmidt^2,3, Brad Balderson1, Christian Frezza3#, Mikael Bodén1#</p>
+<ol class="arabic simple">
+<li><p>School of Chemistry and Molecular Biosciences, University of Queensland, Molecular Biosciences Building 76, St Lucia QLD 4072, Australia.</p></li>
+<li><p>Medical Research Council Cancer Unit, University of Cambridge, Hutchison/MRC Research Centre, Box 197, Cambridge Biomedical Campus, Cambridge CB2 0X2, United Kingdom</p></li>
+<li><p>CECAD Research Center, University Hospital Cologne, Joseph-Stelzmann-Str. 26, 50931 Cologne, Germany</p></li>
+</ol>
+<p>^Joint first authors
+#Joint last authors</p>
+<p>Note Christina and Ariane are equal joint first authors and the authors may swap the order of their names as they so choose :)</p>
+</div>
+<div class="section" id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<p>Clear cell renal cell carcinoma (ccRCC) tumours develop and progress via complex remodelling of the kidney epigenome, transcriptome, proteome, and metabolome. Given the subsequent tumour and inter-patient heterogeneity, drug-based treatments report limited success, calling for multi-omics studies to extract regulatory relationships, and ultimately, to develop targeted therapies. However, current methods are unable to extract nonlinear multi-omics perturbations.</p>
+<p>Here, we present SiRCle (Signature Regulatory Clustering), a novel method to integrate DNA methylation, RNA-seq and proteomics data. Applying SiRCle to a case study of ccRCC, we disentangle the layer (DNA methylation, transcription and/or translation) where dysregulation first occurs and find the primary biological processes altered. Next, we detect regulatory differences between patient subsets by using a variational autoencoder to integrate omics’ data followed by statistical comparisons on the integrated space. In ccRCC patients, SiRCle allows to identify metabolic enzymes and cell-type-specific markers associated with survival along with the likely molecular driver behind the gene’s perturbations.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/summary.png"><img alt="_images/summary.png" src="_images/summary.png" style="width: 800px;" /></a>
+</div>
+</div>
+<div class="section" id="getting-in-touch">
+<h2>Getting in touch<a class="headerlink" href="#getting-in-touch" title="Permalink to this headline">¶</a></h2>
+<p>Please contact CS (<a class="reference external" href="mailto:christina&#46;schmidt&#37;&#52;&#48;uni-koeln&#46;de">christina<span>&#46;</span>schmidt<span>&#64;</span>uni-koeln<span>&#46;</span>de</a>), and AM (<a class="reference external" href="mailto:uqamora&#37;&#52;&#48;uq&#46;edu&#46;au">uqamora<span>&#64;</span>uq<span>&#46;</span>edu<span>&#46;</span>au</a>)</p>
+</div>
+<div class="section" id="citing-the-preprint">
+<h2>Citing the preprint<a class="headerlink" href="#citing-the-preprint" title="Permalink to this headline">¶</a></h2>
+<p>Link to preprint</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Package info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">SUMMARY</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html#abstract">Abstract</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing/index.html">Installing SiRCle</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Reproducibility</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/N01_RNAProcessing.html">Notebook for RNA processing part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N02_ClinicalProcessing.html">Notebook for Clinical processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N03_protein_imputation.html">Protein Imputation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N04_ProteinProcessing.html">Notebook for Protein processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N05_MethProcessing.html">Notebook for Methylation processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N06_PhosphoProteinProcessing.html">Notebook for Phospho-proteoimcs peptide processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N07_RNAProcessing.html">Notebook for RNA processing part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N08_DatasetGeneration.html">Notebook for Generating datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N09_TvN_DE_DA_CpG.html">Tumour vs normal comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N10_MethylationFilter.html">Notebook for Filtering CpGs to Genes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N11_SiRCle_RCM.html">Notebook for performing SiRCle clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N12_SiRCle_ORA_GSEA.html">ORA for SiRCle clusters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N13_SiRCle_ORA_vis.html">Notebook for Over Representation Analysis Visualisation for SiRCle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N14_TF.html">Notebook for TF analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N15_VAE_Integration.html">Notebook for VAE integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N16_Integration_GSEA.html">GSEA on the integrated VAE value</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N17_SingleCell_setup.html">Set up single cell files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N17_singlecell_StageIV-StageI.html">Notebook for Single cell analysis using integrated genes Stage IV vs Stage I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N18_singlecell_PBRM1-BAP1.html">Notebook for Single cell analysis using integrated genes for PBRM1 vs BAP1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N20_Metabolomics_TvN.html">Notebook for metabolomics analysis using publicly available data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N21_Metabolomics_RCM.html">Notebook for RCM data with metabolic pathways</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/N22_Metabolomics_VAE.html">Notebook for VAE data with metabolic pathways</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/Benchmarking.html">Notebook for MOMIX benchmarking</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="about.html" class="btn btn-neutral float-right" title="SUMMARY" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, Ariane Mora and Christina Schmidt.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
