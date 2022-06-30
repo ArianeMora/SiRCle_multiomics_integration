@@ -1,0 +1,424 @@
+---
+title: "VAE_Metabolism"
+author: "Christina Schmidt"
+date: "23 May 2022"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+editor_options:
+  chunk_output_type: console
+---
+
+```{r, warning=FALSE, message=FALSE}
+#load the needed libraries:
+library(tidyverse) # used for data manipulation
+library(rmarkdown) # used for paged_table function
+```
+
+# Samples
+Here we use:\
+1. The results of the VAE output of each SiRCle cluster (VAE-Results) for the different comparisons (young-old, Stage4-Stage1, PBRM1-BAP1).\
+2. The results of the pathway analysis performing fGSEA on the SiRCle clusters.
+3. The metabolic signatures used to perform the GSEA based on [Gaude et al](https://www.nature.com/articles/ncomms13041#Sec16) are used to select specific metabolic pathways of interest.\
+4. mSigDB signatures: Biocarta, Hallmark, Reactome, KEGG.
+```{r, warning=FALSE, message=FALSE}
+#----------------------------------------------------------
+#VAE Data
+VAE_Stage <- read.csv("InputData/Input_VAE-Results/mean_Integrated_comparison_Stage IV-Stage I.csv", check.names=FALSE)
+VAE_Age <- read.csv("InputData/Input_VAE-Results/mean_Integrated_comparison_old-young.csv", check.names=FALSE)
+VAE_Mut <- read.csv("InputData/Input_VAE-Results/mean_Integrated_comparison_PBRM1-BAP1.csv", check.names=FALSE)
+
+#----------------------------------------------------------
+#fGSEA results
+GSEA_Metab_Stage <-read.delim("InputData/Input_VAE-Results/fGSEA/Stage IV-Stage I_consolidated_metabolic_GSEA.tsv",check.names=FALSE)
+GSEA_Path_Stage <-read.delim("InputData/Input_VAE-Results/fGSEA/Stage IV-Stage I_consolidated_pathways_GSEA.tsv",check.names=FALSE)
+GSEA_Metab_Age <-read.delim("InputData/Input_VAE-Results/fGSEA/old-young_consolidated_metabolic_GSEA.tsv",check.names=FALSE)
+GSEA_Path_Age <-read.delim("InputData/Input_VAE-Results/fGSEA/old-young_consolidated_pathways_GSEA.tsv",check.names=FALSE)
+GSEA_Metab_Mut <-read.delim("InputData/Input_VAE-Results/fGSEA/PBRM1-BAP1_consolidated_metabolic_GSEA.tsv",check.names=FALSE)
+GSEA_Path_Mut <-read.delim("InputData/Input_VAE-Results/fGSEA/PBRM1-BAP1_consolidated_pathways_GSEA.tsv",check.names=FALSE)
+
+#----------------------------------------------------------
+#Metabolic Pathway
+Metabolic_Signature <-read.csv("InputData/Input_MetabolicPathways_Gaude/41467_2016_BFncomms13041_MOESM340_ESM.csv")
+
+Correction_Metabolic_Signature <- read.csv("InputData/Input_MetabolicPathways_Gaude/41467_2016_BFncomms13041_MOESM341_ESM.csv")%>% 
+    mutate(Unique = case_when(associated_Pathways =="1" ~ 'Unique',
+                                  TRUE ~ 'In multiple Pathways'))
+Metabolic_Signature <-merge(x=Metabolic_Signature, y=Correction_Metabolic_Signature, by.x ="gene", by.y="external_gene_name", all.x=TRUE)
+
+# Other pathways
+library(GSEABase)
+gmt_to_csv <- function(gmtfile, fast = T){
+  if(fast)
+  {
+    genesets = GSEABase::getGmt(con = gmtfile)
+    genesets = unlist(genesets)
+    
+    gene_to_term =plyr::ldply(genesets,function(geneset){
+      temp <- geneIds(geneset)
+      temp2 <- setName(geneset)
+      temp3 <- as.data.frame(cbind(temp,rep(temp2,length(temp))))
+      
+    },.progress = plyr::progress_text())
+    names(gene_to_term) <- c("gene","term")
+    return(gene_to_term[complete.cases(gene_to_term),])
+  }
+  else
+  {
+    genesets = getGmt(con = gmtfile)
+    genesets = unlist(genesets)
+    
+    gene_to_term <- data.frame(NA,NA)
+    names(gene_to_term) <- c("gene","term")
+    for (geneset in genesets)
+    {
+      temp <- geneIds(geneset)
+      temp2 <- setName(geneset)
+      temp3 <- as.data.frame(cbind(temp,rep(temp2,length(temp))))
+      names(temp3) <- c("gene","term")
+      gene_to_term <- rbind(gene_to_term,temp3)
+    }
+    
+    return(gene_to_term[complete.cases(gene_to_term),])
+  }
+}#Load the Pathways
+
+KEGG <- gmt_to_csv("InputData/Input_MSigDB_Signatures/c2.cp.kegg.v6.2.symbols.gmt")
+Reactome <- gmt_to_csv("InputData/Input_MSigDB_Signatures/c2.cp.reactome.v6.2.symbols.gmt")
+Biocarta <- gmt_to_csv("InputData/Input_MSigDB_Signatures/c2.cp.biocarta.v6.2.symbols.gmt")
+Hallmarks <- gmt_to_csv("InputData/Input_MSigDB_Signatures/h.all.v6.2.symbols.gmt")
+
+Pathways <- rbind(KEGG, Reactome, Biocarta, Hallmarks)
+```
+
+# Plots VAE Mean Integrated Rank
+This refers to the results of the VAE built for the individual SiRCle clusters.
+
+## Lollipop Graphs
+```{r, warning=FALSE}
+#Prepare the DF needed:
+InputLollipop <- function(Input, Condition1, Condition2){
+  Cond1 <-Input[,-9]
+  names(Cond1)[8]<-"Integrated Mean"
+  Cond1$Condition <- paste(Condition1)
+  
+  Cond2 <-Input[,-8]
+  names(Cond2)[8]<-"Integrated Mean"
+  Cond2$Condition <- paste(Condition2)
+
+  Graph <- rbind(Cond1,Cond2)
+  Graph$`Integrated value_Round` <- round(Graph$`Integrated Mean`, digits = 2)
+  Graph$Colour <- ifelse(Graph$Condition== paste(Condition1) , 3, 14)
+  Output <- Graph
+}
+
+Graph_Stage<-InputLollipop(Input= VAE_Stage, 
+                           Condition1="Stage 1", 
+                           Condition2="Stage 4")
+
+Graph_Age<-InputLollipop(Input= VAE_Age, 
+                           Condition1="Young", 
+                           Condition2="Old")
+
+Graph_Mut<-InputLollipop(Input= VAE_Mut, 
+                           Condition1="BAP1", 
+                           Condition2="PBRM1")
+
+#-----------------------------------------------
+Lollipop_VAE <- function(Input, Signature, Signature_term, Comparison){
+  SiRCle_Clusters <- c("MDE", "MDS", "TPDE", "TPDS", "TMDE", "TMDS", "MDS_TMDE","MDE_TMDS","TPDE_TMDS", "TPDS_TMDE")
+    for (k in SiRCle_Clusters){
+  Input_Cluster <- subset(Input, Regulation_Grouping_2 == paste(k))
+      Pathway <- subset(Signature, term == paste(Signature_term))
+      Plot  <- merge(x=Pathway,y=Input_Cluster, by.x="gene", by.y="external_gene_name", all.x=TRUE)
+      Plot  <- na.omit(Plot)
+  #Plot
+   if(nrow(Plot)>1){    
+  Dotplot1 <-ggplot(Plot, aes(x=reorder(gene, + `Integrated Mean`), y=`Integrated Mean`, label=`Integrated value_Round`)) + 
+    geom_point(stat='identity', aes(size = `Integrated Mean`, col=Condition))  +
+    geom_segment(aes(y =(Reduce(max,`Integrated Mean`)), 
+                   x = gene, 
+                   yend = `Integrated Mean`,
+                   xend = gene), 
+               color = "black") +
+    scale_size(name="VAE Integrated Rank (Mean)",range = c(2,16))+
+    geom_text(color="black", size=2) +
+    labs(title=paste(Signature_term), 
+        subtitle=paste(k)) + 
+    ylim(((Reduce(min,Plot$`Integrated Mean`))-0.5),((Reduce(max,Plot$`Integrated Mean`))+0.5)) +
+    theme_minimal() +
+    coord_flip()+
+    theme(plot.title = element_text(color = "black", size = 12, face = "bold"),
+          plot.subtitle = element_text(color = "black", size=10),
+          plot.caption = element_text(color = "black",size=9, face = "italic", hjust = 2.5))+
+    labs(y="VAE integrated value", x="")
+  ggsave(file=paste("Figures/Lollipop_IntegratedMean/", k,"_LollipopGraph_",Signature_term, Comparison,".pdf", sep=""), plot=Dotplot1, width=10, height=10)
+  plot(Dotplot1)
+   } else{
+        print(paste(Signature_term, " pathway genes not present in SiRCle cluster ", k, sep=""))
+        }
+    }
+}
+
+#Run the function:
+Pathway_Names <- Metabolic_Signature[!duplicated(Metabolic_Signature$term),]
+Pathway_Names <- Pathway_Names$term
+
+##Stage
+for (i in Pathway_Names){
+  Lollipop_VAE(Input=Graph_Stage,
+            Signature= Metabolic_Signature,
+            Signature_term=i,
+            Comparison="_Stage IV-Stage I")
+}
+
+##Age
+for (i in Pathway_Names){
+  Lollipop_VAE(Input=Graph_Age,
+            Signature= Metabolic_Signature,
+            Signature_term=i,
+            Comparison="_old-young")
+}
+
+##Mutation
+for (i in Pathway_Names){
+  Lollipop_VAE(Input=Graph_Mut,
+            Signature= Metabolic_Signature,
+            Signature_term=i,
+            Comparison="_PBRM1-BAP1")
+}
+```
+\
+Next we plot all genes of different SiRCle clusters corresponding to the same metabolic pathway on one lollipop graph.\
+```{r, warning=FALSE, message=FALSE}
+
+Lollipop_All_VAE_Clusters <- function(Input, Signature, Signature_term, Comparison){
+  #Select the pathway
+      Pathway <- subset(Signature, term == paste(Signature_term))
+      Plot  <- merge(x=Pathway,y=Input, by.x="gene", by.y="external_gene_name", all.x=TRUE)
+      Plot  <- na.omit(Plot)
+   #Plot
+      if(nrow(Plot)>1){    
+        Dotplot1 <-ggplot(Plot, aes(x=reorder(gene, + `Integrated Mean`), y=`Integrated Mean`, label=`Integrated value_Round`)) + 
+    geom_point(stat='identity', aes(size = `Integrated Mean`, col=Condition))  +
+    geom_segment(aes(y =(Reduce(max,`Integrated Mean`)), 
+                   x = gene, 
+                   yend = `Integrated Mean`,
+                   xend = gene), 
+               color = "black") +
+   scale_size(name="VAE Integrated Rank (Mean)",range = c(2,16))+
+    geom_text(color="black", size=2) +
+    labs(title=paste(Signature_term), 
+        subtitle="All SiRCle Clusters") + 
+    ylim(((Reduce(min,Plot$`Integrated Mean`))-0.5),((Reduce(max,Plot$`Integrated Mean`))+0.5)) +
+    theme_minimal() +
+    coord_flip()+
+    theme(axis.text.y = element_text(color = "black", size=9, face = "bold"),
+          plot.title = element_text(color = "black", size = 12, face = "bold"),
+          plot.subtitle = element_text(color = "black", size=10))+
+          #plot.caption = element_text(color = "black",size=9, face = "italic", hjust = 2.5))+
+    labs(y="VAE integrated value", x="")
+  ggsave(file=paste("Figures/Lollipop_IntegratedMean/AllClusters_LollipopGraph_",Signature_term, Comparison,".pdf", sep=""), plot=Dotplot1, width=10, height=10)
+  plot(Dotplot1)
+     } else{
+       print(paste(Signature_term, " pathway genes not present in any SiRCle cluster ", sep=""))
+       }
+}
+
+#Run the function:
+Pathway_Names <- Metabolic_Signature[!duplicated(Metabolic_Signature$term),]
+Pathway_Names <- Pathway_Names$term
+
+for (i in Pathway_Names){
+  Lollipop_All_VAE_Clusters(Input=Graph_Stage,
+            Signature= Metabolic_Signature,
+            Signature_term=i,
+            Comparison="_Stage IV-Stage I")
+}
+
+for (i in Pathway_Names){
+  Lollipop_All_VAE_Clusters(Input=Graph_Age,
+            Signature= Metabolic_Signature,
+            Signature_term=i,
+            Comparison="_old-young")
+}
+
+for (i in Pathway_Names){
+  Lollipop_All_VAE_Clusters(Input=Graph_Mut,
+            Signature= Metabolic_Signature,
+            Signature_term=i,
+            Comparison="_PBRM1-BAP1")
+}
+
+```
+
+# Plots GSE
+## fGSEA
+This is based on the Gene set enrichment analysis (GSEA) results using the metabolic signatures and the pathways from the MSig DB (KEGG, Reactome, Biocarta, Hallmarks) . 
+Here we use the following threshold:\
+\
+1. Given that the input data are quite small and specific (in the sense of pathways they correspond to). Indeed e.g. in MDE only 32 pathways that have a gene detected in them, which will change the results for multiple testing, hence we use p.val <0.25 as the significant threshold\
+\
+2. Given the pathway sizes are mostly really small (5 genes in one pathway), at least 10% of a pathway has to be detected.
+```{r, warning=FALSE, message=FALSE}
+# Add information on pathway size to the Signatures
+SignatureCount <- function(Signature){
+  DF<- Signature
+  DF$Count <- 1
+  DF$Count1 <- 1
+  
+  DF_Mean <- (DF[,3:4]) %>%
+    group_by(DF$term) %>%
+    summarise_all(funs(sum))%>%
+    rename("DF$term"="term",
+           "Count"="Genes_in_Pathway")
+  DF_Mean <- DF_Mean[,-3]
+
+  Output <- merge(x= DF[,1:2], y=DF_Mean, by="term", all.x=TRUE)
+}
+
+
+Metabolic_Signature_Count <- SignatureCount(Signature=Metabolic_Signature[,1:2])
+Pathway_Count <- SignatureCount(Signature=Pathways)
+
+
+# Add information on Pathway size to GSEA output and Select the Pathways to plot based on the threshold
+Select_Pathway <- function(Input, Pathway_Count, FileName){
+  DF <- merge(x= Input, y=Pathway_Count,by.x="Pathway", by.y="term", all.x=TRUE)
+  DF$Percentage_of_Pathway_detected <-round(((DF$`fGSEA size`/DF$Genes_in_Pathway)*100),digits=2)
+  DF  <- DF  %>%
+    mutate(`In Threshold?` = case_when(`fGSEA pval` <= 0.25 &  Percentage_of_Pathway_detected>= 10 & Genes_in_Pathway >=5 ~ 'YES',
+                                  `fGSEA pval` > 0.25 |  Percentage_of_Pathway_detected< 10 | Genes_in_Pathway < 5~ 'NO',
+                                  TRUE ~ 'FALSE'))
+  write.csv(DF,paste("OutputData/",FileName , ".csv"), row.names = FALSE)
+  Output<- DF
+}
+
+
+GSEA_Metab_Stage <- Select_Pathway(Input=GSEA_Metab_Stage,
+                                Pathway_Count=Metabolic_Signature_Count, 
+                                FileName="Stage IV-Stage I_consolidated_metabolic_GSEA")
+  
+GSEA_Path_Stage <- Select_Pathway(Input=GSEA_Path_Stage,
+                                Pathway_Count=Pathway_Count, 
+                                FileName="Stage IV-Stage I_consolidated_pathways_GSEA")
+
+GSEA_Metab_Age <-Select_Pathway(Input=GSEA_Metab_Age,
+                                Pathway_Count=Metabolic_Signature_Count, 
+                                FileName="old-young_consolidated_metabolic_GSEA")
+
+GSEA_Path_Age <-Select_Pathway(Input=GSEA_Path_Age,
+                                Pathway_Count=Pathway_Count, 
+                                FileName="old-young_consolidated_pathways_GSEA")
+
+GSEA_Metab_Mut <-Select_Pathway(Input=GSEA_Metab_Mut,
+                                Pathway_Count=Metabolic_Signature_Count, 
+                                FileName="PBRM1-BAP1_consolidated_metabolic_GSEA")
+
+GSEA_Path_Mut <-Select_Pathway(Input=GSEA_Path_Mut,
+                                Pathway_Count=Pathway_Count, 
+                                FileName="PBRM1-BAP1_consolidated_pathways_GSEA")
+
+```
+
+```{r, warning=FALSE, message=FALSE}
+#make the function:
+Lollipop_fGSEA <- function(Input, fGSEA_Signature ,Comparison){
+  #Make colour code
+  keyvals<- ifelse(
+    Input$Regulation_Grouping_2 == "MDS", "#CF4692",
+    ifelse(Input$Regulation_Grouping_2 == "MDS&TMDE", "#A16BAA",
+    ifelse(Input$Regulation_Grouping_2 == "MDE", "#6AAF43",
+    ifelse(Input$Regulation_Grouping_2 == "MDE&TMDS", "#0E8D6D",
+    ifelse(Input$Regulation_Grouping_2 == "TPDS", "#452D76",
+    ifelse(Input$Regulation_Grouping_2 == "TPDS&TMDE", "#7E4090",
+    ifelse(Input$Regulation_Grouping_2 == "TPDE", "#E58D26",
+    ifelse(Input$Regulation_Grouping_2 == "TPDE&TMDS", "#844D13",
+    ifelse(Input$Regulation_Grouping_2 == "TMDS", "#3A58A3",
+    ifelse(Input$Regulation_Grouping_2 == "TMDE", "#E5322F",
+    ifelse(Input$Regulation_Grouping_2 == "None", "grey",       
+           "black")))))))))))
+  names(keyvals)[is.na(keyvals)] <- "black"
+  names(keyvals)[keyvals == 'black'] <- "NA"
+  names(keyvals)[keyvals == '#CF4692'] <- "MDS"
+  names(keyvals)[keyvals == '#A16BAA'] <- "MDS&TMDE"
+  names(keyvals)[keyvals == '#6AAF43'] <- "MDE"
+  names(keyvals)[keyvals == '#0E8D6D'] <- "MDE&TMDS"
+  names(keyvals)[keyvals == '#452D76'] <- "TPDS"
+  names(keyvals)[keyvals == '#7E4090'] <- "TPDS&TMDE"
+  names(keyvals)[keyvals == '#E58D26'] <- "TPDE"
+  names(keyvals)[keyvals == '#844D13'] <- "TPDE&TMDS"
+  names(keyvals)[keyvals == '#3A58A3'] <- "TMDS"
+  names(keyvals)[keyvals == '#E5322F'] <- "TMDE"
+  names(keyvals)[keyvals == 'grey'] <- "None"
+  
+  #Select only pathways that meet the threshold
+  Input_Select <-Input%>%
+    subset(`In Threshold?`=="YES")
+  
+  if(nrow(Input_Select)>1){   
+  #Plot
+  Dotplot <-ggplot(Input_Select, aes(x=reorder(Pathway, +Percentage_of_Pathway_detected), y=`fGSEA NES`, label=Percentage_of_Pathway_detected)) + 
+    geom_point(stat='identity', aes(size =Percentage_of_Pathway_detected, col=Regulation_Grouping_2)) +
+     scale_color_manual(values = keyvals)+
+    geom_segment(aes(y = 0, 
+                   x = Pathway, 
+                   yend = `fGSEA NES`,
+                   xend = Pathway), 
+               color = "black") +
+   scale_size(name="Genes detected of pathway [%]",range = c(2,16))+
+    geom_text(color="black", size=2) +
+    labs(title= fGSEA_Signature,
+        subtitle= Comparison,
+        caption="*Threshold: p.val<0.25 & Genes detected of pathway > 10%") + 
+    ylim(((Reduce(min,Input_Select$`fGSEA NES`))-0.5),((Reduce(max,Input_Select$`fGSEA NES`))+0.5)) +
+    theme_bw() +
+    coord_flip()+
+    theme(plot.title = element_text(color = "black", size = 12, face = "bold"),
+          plot.subtitle = element_text(color = "black", size=10),
+          plot.caption = element_text(color = "black",size=9, face = "italic", hjust = 2.5))+
+    labs(y="NES", x="")
+  ggsave(file=paste("Figures/Lollipop_fGSEA/fGSEA_LollipopGraph",fGSEA_Signature, Comparison,".pdf", sep=""), plot=Dotplot, width=15, height=10)
+  
+  plot(Dotplot)
+  } else{
+       print(paste("GSEA of comparing ", Comparison, " patients does not lead to any altered pathways that pass the threshold criteria", sep=""))
+       }
+}
+
+#Make the Graphs:
+Lollipop_fGSEA(Input=GSEA_Metab_Stage,
+               fGSEA_Signature= "_Metabolic_" ,
+               Comparison="Stage IV-Stage I")
+
+Lollipop_fGSEA(Input=GSEA_Path_Stage,
+               fGSEA_Signature= "_Kegg-Reactome-Biocarta-hallmark_" ,
+               Comparison="Stage IV-Stage I")
+
+Lollipop_fGSEA(Input=GSEA_Metab_Age,
+               fGSEA_Signature= "_Metabolic_" ,
+               Comparison="old-young")
+
+Lollipop_fGSEA(Input=GSEA_Path_Age,
+               fGSEA_Signature= "_Kegg-Reactome-Biocarta-hallmark_" ,
+               Comparison="old-young")
+
+Lollipop_fGSEA(Input=GSEA_Metab_Mut,
+               fGSEA_Signature= "_Metabolic_" ,
+               Comparison="PBRM1-BAP1")
+
+Lollipop_fGSEA(Input=GSEA_Path_Mut,
+               fGSEA_Signature= "_Kegg-Reactome-Biocarta-hallmark_" ,
+               Comparison="PBRM1-BAP1")
+
+```
+
+# Information about packages and versions used 
+```{r}
+sessionInfo()
+```
