@@ -44,68 +44,49 @@ for (pathway in unique(pathways$term)) {
 }
 ```
 
-
-### ORA on the Tumour vs normal 
-
-```{r}
-input_data_dir <- '../data/S050_CCRCC_Clark_Cell2019/sircle/all_patients/all_cpgs/'
-figure_dir <- '../figures/sircle/all_patients/all_cpgs/'
-
-regLabel <- 'Regulation_Grouping_2'
-test_title <- 'RCM_P0.5-R1.0-M0.1'
-
-# Read in the regulatory clustering output
-sircleFileName <- paste0(input_data_dir, "RCM_all_patients_ccRCC_P0.5-R1.0-M0.1-GENES.csv")
-
-# Plot the size of each regulatory cluster as a circle
-sirclePlot(sircleFileName, output_dir=figure_dir, regLabels=regLabel, title=paste(test_title), fileType="pdf")
-
-# Run ORA on each of the clusters
-sircleORAHuman(sircleFileName, "entrezgene_id", test_title, regLabel, emptyRegLabel="None", minGSSize=10, qvalueCutoff=0.1, output_dir = figure_dir)
-
-```
-
 ## Look at the changes between early and late stage using the VAE
 
 ```{r}
-input_data_dir <- '../data/S050_CCRCC_Clark_Cell2019/sircle/all_patients/all_cpgs/'
-figure_dir <- '../figures/sircle/all_patients/all_cpgs/'
+input_data_dir <- '../data/sircle/F6_integrative_comparisons_iid_nn/'
+figure_dir <- '../figures/'
 
-regLabel <- 'Regulation_Grouping_2'
-test_title <- 'RCM_P0.5-R1.0-M0.1'
 # Use the RCM df as the reference (this is how we get the background genes for the clusters for ORA)
-refDf <- read.csv(paste0(input_data_dir, "RCM_all_patients_ccRCC_P0.5-R1.0-M0.1-GENES.csv"))
+refDf <- read.csv(paste0('../data/sircle/F3_regulatory_clustering/', "RCM_all_patients_ccRCC_P0.5-R1.0-M0.1-GENES.csv"))
 
 reg_grps <- c("MDS", "MDS_TMDE", "MDE", "MDE_TMDS", "TMDE", "TMDS", "TPDE", "TPDE_TMDS",  "TPDS", "TPDS_TMDE")
-sircleFileName <- paste0('../data/S050_CCRCC_Clark_Cell2019/sircle/integration/output_data/comparisons/mean_Integrated_comparison_Stage IV-Stage I.csv')
-  # https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-587
+sircleFileName <- paste0(input_data_dir, 'mean_Integrated_comparison_Stage IV-Stage I_iid1.csv')
 vis_df <- read.csv(sircleFileName)
-for (r in reg_grps) { # VAE_TPDS_07032022
+GSEA_results <- GSEASetupSircle(vis_df, paste0("Stage IV-Stage I 1"), gene_name="external_gene_name", stat='Integrated.diff..Stage.IV.Stage.I.',   GSEA_file_dir=GSEA_file_dir, output_dir='../figures/', pathway_list=pathway_list)
+
+
+# https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-587
+vis_df <- read.csv(sircleFileName)
+for (r in reg_grps) {
 
   grpGenes <- subset(vis_df, vis_df[["Regulation_Grouping_2"]] == r)
   # Run GSEA on the consistently changed genes between late and early stage using the t-stat as the rank
-  GSEA_results <- GSEASetupSircle(grpGenes, paste0("G4_Stage IV-Stage I ", r), gene_name="external_gene_name", stat='Integrated.diff..Stage.IV.Stage.I.',   GSEA_file_dir=GSEA_file_dir, output_dir='../figures/sircle/all_patients/all_cpgs/', pathway_list=pathway_list)
+  GSEA_results <- GSEASetupSircle(grpGenes, paste0("Stage IV-Stage I 1000", r), gene_name="external_gene_name", stat='Integrated.diff..Stage.IV.Stage.I.',   GSEA_file_dir=GSEA_file_dir, output_dir=figure_dir, pathway_list=pathway_list)
 }
   
-sircleFileName <- paste0('../data/S050_CCRCC_Clark_Cell2019/sircle/integration/output_data/comparisons/mean_Integrated_comparison_old-young.csv')
-  # https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-587
+sircleFileName <- paste0(input_data_dir, 'mean_Integrated_comparison_old-young.csv')
 vis_df <- read.csv(sircleFileName)
-for (r in reg_grps) { # VAE_TPDS_07032022
+for (r in reg_grps) {
 
   grpGenes <- subset(vis_df, vis_df[["Regulation_Grouping_2"]] == r)
   # Run GSEA on the consistently changed genes between late and early stage using the t-stat as the rank
-  GSEA_results <- GSEASetupSircle(grpGenes, paste0("G4_old-young ", r), gene_name="external_gene_name", stat='Integrated.diff..old.young.',   GSEA_file_dir=GSEA_file_dir, output_dir='../figures/sircle/all_patients/all_cpgs/', pathway_list=pathway_list)
+  GSEA_results <- GSEASetupSircle(grpGenes, paste0("G4_old-young ", r), gene_name="external_gene_name", stat='Integrated.diff..old.young.',   GSEA_file_dir=GSEA_file_dir, output_dir=figure_dir, pathway_list=pathway_list)
 }
 
-sircleFileName <- paste0('../data/S050_CCRCC_Clark_Cell2019/sircle/integration/output_data/comparisons/mean_Integrated_comparison_PBRM1-BAP1.csv')
-  # https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-587
+## Lastly look at mutations
+sircleFileName <- paste0(input_data_dir, 'mean_Integrated_comparison_PBRM1-BAP1.csv')
 vis_df <- read.csv(sircleFileName)
-for (r in reg_grps) { # VAE_TPDS_07032022
+for (r in reg_grps) {
 
   grpGenes <- subset(vis_df, vis_df[["Regulation_Grouping_2"]] == r)
   # Run GSEA on the consistently changed genes between late and early stage using the t-stat as the rank
-  GSEA_results <- GSEASetupSircle(grpGenes, paste0("G4_PBRM1-BAP1 ", r), gene_name="external_gene_name", stat='Integrated.diff..PBRM1.BAP1.',   GSEA_file_dir=GSEA_file_dir, output_dir='../figures/sircle/all_patients/all_cpgs/', pathway_list=pathway_list)
+  GSEA_results <- GSEASetupSircle(grpGenes, paste0("G4_PBRM1-BAP1 ", r), gene_name="external_gene_name", stat='Integrated.diff..PBRM1.BAP1.',   GSEA_file_dir=GSEA_file_dir, output_dir=figure_dir, pathway_list=pathway_list)
 }
+
 
 ```
 
