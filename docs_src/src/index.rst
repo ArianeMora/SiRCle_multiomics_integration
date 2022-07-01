@@ -31,10 +31,15 @@ Places where this (or a package we developed for this) has been presented
      - Melbourne bioinformatics seminar series
      - Presentation
    * - 25 May 2021
-     - `Visbi <link to visbi/>`_
+     - `Vizbi <https://vizbi.org/Posters/2021/vD02>`_
      - Poster
-
-
+   * - 15 - 17 Sep 2021
+     - `Multiomics to Mechanisms: Challenges in Data Integration <https://www.embl.org/about/info/course-and-conference-office/events/ees21-09/>`_
+     - Short talk
+   * - 15 Jan 2022
+     - Multi-Omics ONLINE - Webinar 2: Data integration and interpretation to unveil novel insights
+     - Talk
+     
 Authors
 =======
 
@@ -44,7 +49,7 @@ Ariane Mora^1, Christina Schmidt^2,3, Brad Balderson1, Christian Frezza3#, Mikae
 2) Medical Research Council Cancer Unit, University of Cambridge, Hutchison/MRC Research Centre, Box 197, Cambridge Biomedical Campus, Cambridge CB2 0X2, United Kingdom
 3) CECAD Research Center, University Hospital Cologne, Joseph-Stelzmann-Str. 26, 50931 Cologne, Germany
 
-^Joint first authors
+^Joint first authors equally contributed; the order is interchangeable and up to the authors discretion
 #Joint last authors
 
 Note Christina and Ariane are equal joint first authors and the authors may swap the order of their names as they so choose :)
