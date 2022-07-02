@@ -13,7 +13,7 @@ Links to analyses and data
 
 - Preprint: `bioRxiv <X>`_
 - HTML outputs are available on the left panel
-- Code and processed data is available at: `here <https://github.com/ArianeMora/mouseCNS_vae>`_
+- Code and processed data is available at: `here <https://github.com/ArianeMora/scircm>`_
 - Data can be downloaded here: ...
 
 

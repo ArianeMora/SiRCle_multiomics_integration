@@ -34,7 +34,7 @@ Here, we present SiRCle (Signature Regulatory Clustering), a novel method to int
 sci-RegulatoryClusteringModel
 -----------------------------
 
-`Docs <https://arianemora.github.io/scircm/>`_
+`Package <https://github.com/ArianeMora/scircm/>`_
 
 The general table of how we define regulatory clusters.
 

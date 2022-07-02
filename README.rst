@@ -11,11 +11,8 @@ producing the paper.
 Links to analyses and data
 --------------------------
 
-- Preprint: `bioRxiv <X>`_
-- HTML outputs are available on the left panel
-- Code and processed data is available at: `here <https://github.com/ArianeMora/scircm>`_
-- Data can be downloaded here: ...
-
+- Code and tutorials: `here <https://github.com/ArianeMora/scircm>`_
+- Docs and processed data: https://arianemora.github.io/SiRCle_multiomics_integration/
 
 Places where this (or a package we developed for this) has been presented
 -------------------------------------------------------------------------
@@ -39,7 +36,7 @@ Places where this (or a package we developed for this) has been presented
    * - 15 Jan 2022
      - Multi-Omics ONLINE - Webinar 2: Data integration and interpretation to unveil novel insights
      - Talk
-     
+
 Authors
 =======
 
@@ -59,65 +56,4 @@ Abstract
 Clear cell renal cell carcinoma (ccRCC) tumours develop and progress via complex remodelling of the kidney epigenome, transcriptome, proteome, and metabolome. Given the subsequent tumour and inter-patient heterogeneity, drug-based treatments report limited success, calling for multi-omics studies to extract regulatory relationships, and ultimately, to develop targeted therapies. However, current methods are unable to extract nonlinear multi-omics perturbations.
 
 Here, we present SiRCle (Signature Regulatory Clustering), a novel method to integrate DNA methylation, RNA-seq and proteomics data. Applying SiRCle to a case study of ccRCC, we disentangle the layer (DNA methylation, transcription and/or translation) where dysregulation first occurs and find the primary biological processes altered. Next, we detect regulatory differences between patient subsets by using a variational autoencoder to integrate omics’ data followed by statistical comparisons on the integrated space. In ccRCC patients, SiRCle allows to identify metabolic enzymes and cell-type-specific markers associated with survival along with the likely molecular driver behind the gene’s perturbations.
-
-
-.. figure:: _static/summary.png
-   :width: 800
-   :align: center
-
-
-Getting in touch
-=================
-
-Please contact CS (christina.schmidt@uni-koeln.de), and AM (uqamora@uq.edu.au)
-
-
-Citing the preprint
-===================
-Link to preprint
-
-
-.. toctree::
-   :caption: Package info
-   :maxdepth: 1
-
-   about
-   installing/index
-
-
-.. toctree::
-   :caption: Reproducibility
-   :maxdepth: 1
-
-   examples/N01_RNAProcessing
-   examples/N02_ClinicalProcessing
-   examples/N03_protein_imputation
-   examples/N04_ProteinProcessing
-   examples/N05_MethProcessing
-   examples/N06_PhosphoProteinProcessing
-   examples/N07_RNAProcessing
-   examples/N08_DatasetGeneration
-   examples/N09_TvN_DE_DA_CpG
-   examples/N10_MethylationFilter
-   examples/N11_SiRCle_RCM
-   examples/N12_SiRCle_ORA_GSEA
-   examples/N13_SiRCle_ORA_vis
-   examples/N14_TF
-   examples/N15_VAE_Integration
-   examples/N16_Integration_GSEA
-   examples/N17_SingleCell_setup
-   examples/N17_singlecell_StageIV-StageI
-   examples/N18_singlecell_PBRM1-BAP1
-   examples/N20_Metabolomics_TvN
-   examples/N21_Metabolomics_RCM
-   examples/N22_Metabolomics_VAE
-   examples/Benchmarking
-
-.. toctree::
-   :caption: About
-   :maxdepth: 1
-
-   faq
-   changelog
-   references
 
