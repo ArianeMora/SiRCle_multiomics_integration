@@ -11,11 +11,8 @@ producing the paper.
 Links to analyses and data
 --------------------------
 
-- Preprint: `bioRxiv <X>`_
-- HTML outputs are available on the left panel
-- Code and processed data is available at: `here <https://github.com/ArianeMora/scircm>`_
-- Data can be downloaded here: ...
-
+- `Code and tutorials: <https://github.com/ArianeMora/scircm>`_
+- `Analyses and processed data <https://arianemora.github.io/SiRCle_multiomics_integration/>`_
 
 Places where this (or a package we developed for this) has been presented
 -------------------------------------------------------------------------
