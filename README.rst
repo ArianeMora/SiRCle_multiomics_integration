@@ -2,6 +2,16 @@
 SiRCle (Signature Regulatory Clustering) model integration reveals mechanisms of phenotype regulation in renal cancer
 **********************************************************************************************************************
 
+Code
+====
+If you're interested in running SiRCLe: please see our R package: https://github.com/ArianeMora/SiRCleR
+or python package for installation instructions, examples and documentation: https://github.com/ArianeMora/scircm
+
+Paper
+=====
+We're in the process of submission but you can read our preprint here: https://www.biorxiv.org/content/10.1101/2022.07.02.498058v1
+Always happy to hear feedback and suggestions :)
+
 Information
 ===========
 This site hosts the information associated with the paper: **SiRCle (Signature Regulatory Clustering) model integration reveals mechanisms of phenotype regulation in renal cancer**.
