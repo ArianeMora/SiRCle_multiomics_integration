@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
+<style>@font-face{font-family:'Droid Sans Mono';font-weight:normal;font-style:normal;src:url("data:application/font-woff;charset=utf-8;base64,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")format("woff");}</style>
+<style>text{font-family:'Droid Sans Mono';font-weight:normal;font-style:normal;}</style>
+<rect width="100%" height="100%" style="fill:white"></rect>
+<text transform="translate(32,175)" font-size="72" style="fill:rgb(202, 225, 31)">GRIK2</text>
+<text transform="translate(54,222)" font-size="63" style="fill:rgb(63, 71, 136)">KCNA1</text>
+<text transform="translate(82,92)" font-size="58" style="fill:rgb(40, 124, 142)">DRD2</text>
+<text transform="translate(81,250)" font-size="38" style="fill:rgb(71, 14, 97)">GABRA2</text>
+<text transform="translate(107,115)" font-size="32" style="fill:rgb(58, 83, 139)">FGF10</text>
+<text transform="translate(108,267)" font-size="23" style="fill:rgb(39, 128, 142)">ADRA2C</text>
+<text transform="translate(35,113)" font-size="23" style="fill:rgb(38, 130, 142)">GRIA2</text>
+<text transform="translate(201,108)" font-size="22" style="fill:rgb(52, 97, 141)">GDNF</text>
+<text transform="translate(122,40)" font-size="22" style="fill:rgb(108, 205, 90)">PAX8</text>
+<text transform="translate(262,194) rotate(-90)" font-size="22" style="fill:rgb(202, 225, 31)">GABRA4</text>
+<text transform="translate(201,118)" font-size="12" style="fill:rgb(66, 63, 133)">GABRB1</text>
+<text transform="translate(57,85)" font-size="11" style="fill:rgb(149, 216, 64)">BMP7</text>
+<text transform="translate(215,78)" font-size="11" style="fill:rgb(236, 229, 27)">TBX3</text>
+<text transform="translate(229,218)" font-size="11" style="fill:rgb(31, 149, 139)">LHX1</text>
+<text transform="translate(55,218) rotate(-90)" font-size="11" style="fill:rgb(47, 108, 142)">GRM1</text>
+<text transform="translate(223,87)" font-size="11" style="fill:rgb(31, 159, 136)">KCNN2</text>
+<text transform="translate(229,205)" font-size="11" style="fill:rgb(76, 194, 108)">SCN2B</text>
+<text transform="translate(51,142)" font-size="11" style="fill:rgb(99, 203, 95)">TAC1</text>
+<text transform="translate(88,46)" font-size="11" style="fill:rgb(84, 197, 104)">NTSR1</text>
+<text transform="translate(30,188)" font-size="11" style="fill:rgb(52, 182, 121)">CFTR</text>
+<text transform="translate(197,143)" font-size="11" style="fill:rgb(31, 161, 136)">HCN4</text>
+<text transform="translate(177,45)" font-size="11" style="fill:rgb(71, 14, 97)">KCNC4</text>
+<text transform="translate(272,180) rotate(-90)" font-size="10" style="fill:rgb(44, 113, 142)">HOXD10</text>
+<text transform="translate(133,274)" font-size="10" style="fill:rgb(44, 115, 142)">VANGL2</text>
+<text transform="translate(215,229)" font-size="10" style="fill:rgb(115, 208, 86)">GATA3</text>
+<text transform="translate(191,150)" font-size="10" style="fill:rgb(32, 163, 134)">RDH10</text>
+<text transform="translate(31,157) rotate(-90)" font-size="10" style="fill:rgb(221, 227, 24)">ATP1B2</text>
+<text transform="translate(53,71)" font-size="10" style="fill:rgb(105, 205, 91)">CALCA</text>
+<text transform="translate(58,230)" font-size="9" style="fill:rgb(70, 52, 128)">IRX1</text>
+<text transform="translate(72,120)" font-size="9" style="fill:rgb(45, 178, 125)">HOXB6</text>
+<text transform="translate(105,197)" font-size="9" style="fill:rgb(34, 167, 133)">HOXB3</text>
+<text transform="translate(104,205)" font-size="9" style="fill:rgb(103, 204, 92)">HOXA7</text>
+<text transform="translate(56,92)" font-size="9" style="fill:rgb(110, 206, 88)">GRHL2</text>
+<text transform="translate(145,47)" font-size="9" style="fill:rgb(46, 111, 142)">TCF21</text>
+<text transform="translate(214,238)" font-size="9" style="fill:rgb(38, 173, 129)">CHRM1</text>
+<text transform="translate(161,158) rotate(-90)" font-size="9" style="fill:rgb(69, 56, 130)">LRRTM1</text>
+<text transform="translate(130,158) rotate(-90)" font-size="9" style="fill:rgb(69, 5, 89)">LRFN3</text>
+<text transform="translate(186,260)" font-size="9" style="fill:rgb(46, 109, 142)">CDH10</text>
+<text transform="translate(35,119)" font-size="7" style="fill:rgb(65, 68, 135)">CNTNAP2</text>
+<text transform="translate(43,211) rotate(-90)" font-size="7" style="fill:rgb(71, 16, 99)">KCNA4</text>
+<text transform="translate(49,162)" font-size="6" style="fill:rgb(72, 22, 104)">WT1</text>
+<text transform="translate(194,155)" font-size="6" style="fill:rgb(149, 216, 64)">POU3F4</text>
+<text transform="translate(160,120)" font-size="6" style="fill:rgb(44, 177, 126)">GATA2</text>
+<text transform="translate(112,210)" font-size="6" style="fill:rgb(34, 167, 133)">RIMS4</text>
+<text transform="translate(250,106)" font-size="6" style="fill:rgb(41, 123, 142)">TACR3</text>
+<text transform="translate(89,258)" font-size="6" style="fill:rgb(58, 186, 118)">TRPM3</text>
+<text transform="translate(145,163)" font-size="6" style="fill:rgb(66, 64, 134)">LHFPL4</text>
+<text transform="translate(202,209)" font-size="6" style="fill:rgb(39, 126, 142)">SYT1</text>
+<text transform="translate(216,62)" font-size="6" style="fill:rgb(101, 203, 94)">SLC5A7</text>
+<text transform="translate(269,142) rotate(-90)" font-size="6" style="fill:rgb(72, 27, 109)">SYT6</text>
+<text transform="translate(128,120)" font-size="6" style="fill:rgb(162, 218, 55)">MCOLN3</text>
+<text transform="translate(56,235)" font-size="6" style="fill:rgb(41, 175, 127)">SLC6A2</text>
+<text transform="translate(119,169) rotate(-90)" font-size="6" style="fill:rgb(40, 124, 142)">NTNG1</text>
+<text transform="translate(119,44)" font-size="5" style="fill:rgb(55, 91, 141)">SOSTDC1</text>
+<text transform="translate(111,120)" font-size="5" style="fill:rgb(155, 217, 60)">GATA5</text>
+<text transform="translate(43,83)" font-size="5" style="fill:rgb(221, 227, 24)">HHIP</text>
+<text transform="translate(186,64)" font-size="5" style="fill:rgb(59, 82, 139)">FOXJ1</text>
+<text transform="translate(198,181)" font-size="5" style="fill:rgb(42, 119, 142)">HMX2</text>
+<text transform="translate(158,111)" font-size="5" style="fill:rgb(55, 90, 140)">ALX1</text>
+<text transform="translate(99,82) rotate(-90)" font-size="5" style="fill:rgb(44, 115, 142)">CLDN19</text>
+<text transform="translate(83,204)" font-size="5" style="fill:rgb(72, 31, 112)">JUP</text>
+<text transform="translate(101,34)" font-size="5" style="fill:rgb(84, 197, 104)">ADRB1</text>
+<text transform="translate(82,192)" font-size="5" style="fill:rgb(105, 205, 91)">UCN3</text>
+<text transform="translate(181,111) rotate(-90)" font-size="5" style="fill:rgb(70, 48, 126)">HOMER1</text>
+<text transform="translate(205,215)" font-size="5" style="fill:rgb(56, 185, 119)">APOA1</text>
+<text transform="translate(177,33)" font-size="5" style="fill:rgb(44, 114, 142)">SYT10</text>
+<text transform="translate(65,59)" font-size="5" style="fill:rgb(70, 192, 111)">THY1</text>
+<text transform="translate(218,245)" font-size="5" style="fill:rgb(108, 205, 90)">EPHA5</text>
+<text transform="translate(262,120)" font-size="5" style="fill:rgb(72, 23, 105)">AMFR</text>
+<text transform="translate(119,162)" font-size="5" style="fill:rgb(173, 220, 48)">KLHL1</text>
+<text transform="translate(198,196)" font-size="5" style="fill:rgb(49, 104, 142)">ABHD17C</text>
+<text transform="translate(242,164) rotate(-90)" font-size="5" style="fill:rgb(70, 7, 90)">KCTD8</text>
+<text transform="translate(69,246)" font-size="5" style="fill:rgb(72, 29, 111)">NSG1</text>
+<text transform="translate(25,175)" font-size="5" style="fill:rgb(71, 17, 100)">VWC2</text>
+<text transform="translate(177,217)" font-size="5" style="fill:rgb(44, 114, 142)">FLRT1</text>
+<text transform="translate(198,160)" font-size="5" style="fill:rgb(31, 162, 135)">TRPM6</text>
+<text transform="translate(219,250)" font-size="4" style="fill:rgb(42, 119, 142)">EMX1</text>
+<text transform="translate(172,271)" font-size="4" style="fill:rgb(184, 222, 41)">HOXD8</text>
+<text transform="translate(154,172)" font-size="4" style="fill:rgb(45, 178, 125)">LMX1B</text>
+<text transform="translate(121,166)" font-size="4" style="fill:rgb(69, 55, 129)">TDRD5</text>
+<text transform="translate(115,271)" font-size="4" style="fill:rgb(53, 94, 141)">TMEM25</text>
+<text transform="translate(232,66)" font-size="4" style="fill:rgb(31, 161, 136)">KLHL3</text>
+<text transform="translate(247,112)" font-size="4" style="fill:rgb(68, 59, 132)">MARVELD2</text>
+<text transform="translate(216,54)" font-size="4" style="fill:rgb(155, 217, 60)">PKHD1L1</text>
+<text transform="translate(275,144) rotate(-90)" font-size="4" style="fill:rgb(52, 182, 121)">BCR</text>
+<text transform="translate(189,68)" font-size="4" style="fill:rgb(71, 17, 100)">HRG</text>
+<text transform="translate(183,173)" font-size="4" style="fill:rgb(57, 86, 140)">DCC</text>
+<text transform="translate(191,234)" font-size="4" style="fill:rgb(110, 206, 88)">OLFM3</text>
+<text transform="translate(23,163)" font-size="4" style="fill:rgb(38, 129, 142)">SMDT1</text>
+<text transform="translate(175,48)" font-size="4" style="fill:rgb(70, 8, 92)">BRINP3</text>
+<text transform="translate(39,86)" font-size="4" style="fill:rgb(192, 223, 37)">S100A5</text>
+<text transform="translate(263,185)" font-size="4" style="fill:rgb(72, 33, 115)">GJD2</text>
+</svg>

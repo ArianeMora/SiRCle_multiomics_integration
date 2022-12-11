@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
+<style>@font-face{font-family:'Droid Sans Mono';font-weight:normal;font-style:normal;src:url("data:application/font-woff;charset=utf-8;base64,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")format("woff");}</style>
+<style>text{font-family:'Droid Sans Mono';font-weight:normal;font-style:normal;}</style>
+<rect width="100%" height="100%" style="fill:white"></rect>
+<text transform="translate(30,150)" font-size="57" style="fill:rgb(58, 83, 139)">NDUFAB1</text>
+<text transform="translate(56,206)" font-size="54" style="fill:rgb(72, 31, 112)">NDUFA7</text>
+<text transform="translate(84,248)" font-size="51" style="fill:rgb(33, 166, 133)">DLD</text>
+<text transform="translate(60,95)" font-size="50" style="fill:rgb(178, 221, 45)">NDUFS7</text>
+<text transform="translate(98,50)" font-size="25" style="fill:rgb(37, 133, 142)">NDUFA13</text>
+<text transform="translate(108,266)" font-size="23" style="fill:rgb(64, 69, 136)">NDUFS8</text>
+<text transform="translate(175,224)" font-size="21" style="fill:rgb(58, 186, 118)">NDUFS1</text>
+<text transform="translate(174,238)" font-size="18" style="fill:rgb(31, 149, 139)">NDUFS2</text>
+<text transform="translate(166,162)" font-size="16" style="fill:rgb(72, 24, 106)">NDUFA10</text>
+<text transform="translate(269,172) rotate(-90)" font-size="16" style="fill:rgb(68, 1, 84)">NDUFS3</text>
+<text transform="translate(31,162)" font-size="16" style="fill:rgb(45, 112, 142)">NDUFB8</text>
+<text transform="translate(54,221) rotate(-90)" font-size="16" style="fill:rgb(72, 37, 118)">NDUFA9</text>
+<text transform="translate(98,162)" font-size="15" style="fill:rgb(253, 231, 37)">NDUFV1</text>
+<text transform="translate(186,104)" font-size="12" style="fill:rgb(71, 46, 124)">NDUFA4</text>
+<text transform="translate(53,104)" font-size="12" style="fill:rgb(248, 230, 33)">NDUFB1</text>
+<text transform="translate(133,104)" font-size="12" style="fill:rgb(86, 198, 103)">NDUFB9</text>
+<text transform="translate(117,140) rotate(-90)" font-size="12" style="fill:rgb(72, 23, 105)">NDUFB3</text>
+<text transform="translate(245,164) rotate(-90)" font-size="12" style="fill:rgb(186, 222, 40)">NDUFA6</text>
+<text transform="translate(82,251) rotate(-90)" font-size="12" style="fill:rgb(226, 228, 24)">NDUFV3</text>
+<text transform="translate(255,216) rotate(-90)" font-size="12" style="fill:rgb(58, 186, 118)">NDUFS6</text>
+<text transform="translate(244,109) rotate(-90)" font-size="12" style="fill:rgb(62, 76, 138)">NDUFA8</text>
+<text transform="translate(193,246)" font-size="10" style="fill:rgb(231, 228, 25)">NDUFC2</text>
+<text transform="translate(129,274)" font-size="10" style="fill:rgb(70, 50, 126)">NDUFA3</text>
+<text transform="translate(37,199) rotate(-90)" font-size="10" style="fill:rgb(44, 177, 126)">NDUFB2</text>
+<text transform="translate(67,242) rotate(-90)" font-size="10" style="fill:rgb(38, 130, 142)">NDUFV2</text>
+<text transform="translate(190,252)" font-size="8" style="fill:rgb(61, 77, 138)">NDUFB10</text>
+<text transform="translate(145,120)" font-size="8" style="fill:rgb(137, 213, 72)">NDUFA5</text>
+<text transform="translate(135,27)" font-size="8" style="fill:rgb(70, 11, 94)">NDUFB5</text>
+<text transform="translate(141,240) rotate(-90)" font-size="8" style="fill:rgb(251, 231, 35)">NDUFB7</text>
+<text transform="translate(138,198) rotate(-90)" font-size="8" style="fill:rgb(236, 229, 27)">NDUFA12</text>
+<text transform="translate(200,54)" font-size="8" style="fill:rgb(66, 64, 134)">NDUFS5</text>
+<text transform="translate(262,205) rotate(-90)" font-size="8" style="fill:rgb(31, 151, 139)">NDUFB6</text>
+<text transform="translate(135,82) rotate(-90)" font-size="8" style="fill:rgb(66, 63, 133)">NDUFA2</text>
+<text transform="translate(157,163) rotate(-90)" font-size="8" style="fill:rgb(47, 180, 124)">NDUFS4</text>
+<text transform="translate(250,101) rotate(-90)" font-size="8" style="fill:rgb(52, 182, 121)">NDUFB4</text>
+<text transform="translate(213,93) rotate(-90)" font-size="8" style="fill:rgb(72, 23, 105)">NDUFC1</text>
+<text transform="translate(72,54)" font-size="6" style="fill:rgb(62, 74, 137)">NDUFAF1</text>
+<text transform="translate(155,55)" font-size="6" style="fill:rgb(30, 155, 138)">NDUFA11</text>
+<text transform="translate(275,169) rotate(-90)" font-size="6" style="fill:rgb(72, 35, 116)">NDUFB11</text>
+<text transform="translate(165,85)" font-size="6" style="fill:rgb(72, 40, 120)">ATP5F1D</text>
+<text transform="translate(190,258)" font-size="6" style="fill:rgb(61, 78, 138)">MRPL18</text>
+<text transform="translate(100,55)" font-size="6" style="fill:rgb(49, 104, 142)">MRPL19</text>
+<text transform="translate(39,91)" font-size="6" style="fill:rgb(244, 230, 30)">MRPL34</text>
+<text transform="translate(166,181)" font-size="6" style="fill:rgb(72, 35, 116)">MRPL51</text>
+<text transform="translate(83,253)" font-size="6" style="fill:rgb(46, 179, 124)">MRPL16</text>
+<text transform="translate(169,271)" font-size="6" style="fill:rgb(37, 172, 130)">MRPL17</text>
+<text transform="translate(212,180)" font-size="6" style="fill:rgb(44, 177, 126)">MRPL22</text>
+<text transform="translate(85,259)" font-size="6" style="fill:rgb(36, 134, 142)">MRPL49</text>
+<text transform="translate(245,106)" font-size="6" style="fill:rgb(253, 231, 37)">MRPL12</text>
+<text transform="translate(50,113) rotate(-90)" font-size="6" style="fill:rgb(53, 183, 121)">MRPL11</text>
+<text transform="translate(165,195)" font-size="6" style="fill:rgb(71, 47, 125)">MRPL14</text>
+<text transform="translate(131,240) rotate(-90)" font-size="6" style="fill:rgb(32, 163, 134)">MRPL55</text>
+<text transform="translate(198,126) rotate(-90)" font-size="6" style="fill:rgb(84, 197, 104)">MRPL54</text>
+<text transform="translate(135,128) rotate(-90)" font-size="6" style="fill:rgb(50, 101, 142)">MRPL30</text>
+<text transform="translate(135,55)" font-size="6" style="fill:rgb(64, 70, 136)">MRPL9</text>
+<text transform="translate(104,87) rotate(-90)" font-size="6" style="fill:rgb(70, 48, 126)">MRPL15</text>
+<text transform="translate(81,141) rotate(-90)" font-size="6" style="fill:rgb(39, 173, 129)">MRPL13</text>
+<text transform="translate(156,198) rotate(-90)" font-size="6" style="fill:rgb(71, 44, 122)">MRPL27</text>
+<text transform="translate(28,162) rotate(-90)" font-size="6" style="fill:rgb(48, 106, 142)">MRPS18A</text>
+<text transform="translate(274,142) rotate(-90)" font-size="6" style="fill:rgb(72, 22, 104)">MRPL47</text>
+<text transform="translate(163,157) rotate(-90)" font-size="6" style="fill:rgb(32, 164, 134)">MRPL20</text>
+<text transform="translate(268,193) rotate(-90)" font-size="6" style="fill:rgb(76, 194, 108)">MRPL46</text>
+<text transform="translate(104,196) rotate(-90)" font-size="6" style="fill:rgb(36, 135, 142)">MRPL43</text>
+<text transform="translate(222,202) rotate(-90)" font-size="6" style="fill:rgb(33, 165, 133)">MRPL23</text>
+<text transform="translate(159,240) rotate(-90)" font-size="6" style="fill:rgb(108, 205, 90)">MRPL52</text>
+<text transform="translate(161,90)" font-size="5" style="fill:rgb(38, 130, 142)">MRPS30</text>
+<text transform="translate(163,69)" font-size="5" style="fill:rgb(33, 165, 133)">MRPL32</text>
+<text transform="translate(55,84) rotate(-90)" font-size="5" style="fill:rgb(33, 165, 133)">MRPL33</text>
+<text transform="translate(166,204)" font-size="5" style="fill:rgb(62, 73, 137)">MRPL37</text>
+<text transform="translate(180,55)" font-size="5" style="fill:rgb(72, 33, 115)">MRPL57</text>
+<text transform="translate(97,236) rotate(-90)" font-size="5" style="fill:rgb(50, 101, 142)">MRPL10</text>
+<text transform="translate(109,270)" font-size="5" style="fill:rgb(46, 109, 142)">MRPL28</text>
+<text transform="translate(201,43)" font-size="5" style="fill:rgb(144, 215, 67)">MRPL3</text>
+<text transform="translate(172,243)" font-size="5" style="fill:rgb(59, 187, 117)">MRPL24</text>
+<text transform="translate(81,44)" font-size="5" style="fill:rgb(72, 24, 106)">COX5A</text>
+<text transform="translate(151,85) rotate(-90)" font-size="5" style="fill:rgb(241, 229, 29)">COX4I1</text>
+<text transform="translate(134,148) rotate(-90)" font-size="5" style="fill:rgb(36, 135, 142)">COX6A1</text>
+<text transform="translate(192,263)" font-size="5" style="fill:rgb(108, 205, 90)">COX7C</text>
+<text transform="translate(253,171) rotate(-90)" font-size="5" style="fill:rgb(46, 179, 124)">ATP5F1B</text>
+<text transform="translate(164,28)" font-size="4" style="fill:rgb(53, 95, 141)">ATP5F1C</text>
+<text transform="translate(118,28)" font-size="4" style="fill:rgb(31, 150, 139)">ATP5PB</text>
+<text transform="translate(149,124)" font-size="4" style="fill:rgb(51, 99, 141)">ATP5F1E</text>
+<text transform="translate(257,110)" font-size="4" style="fill:rgb(30, 157, 137)">MLYCD</text>
+<text transform="translate(250,96)" font-size="4" style="fill:rgb(50, 101, 142)">MRPL53</text>
+<text transform="translate(194,205)" font-size="4" style="fill:rgb(122, 209, 81)">MRPL58</text>
+<text transform="translate(120,104) rotate(-90)" font-size="4" style="fill:rgb(50, 100, 142)">MRPL40</text>
+<text transform="translate(111,208)" font-size="4" style="fill:rgb(186, 222, 40)">MRPL48</text>
+<text transform="translate(87,209)" font-size="4" style="fill:rgb(44, 177, 126)">MRPL44</text>
+<text transform="translate(182,165)" font-size="4" style="fill:rgb(72, 33, 115)">MRPL50</text>
+<text transform="translate(92,263)" font-size="4" style="fill:rgb(70, 8, 92)">MRPL45</text>
+<text transform="translate(97,115) rotate(-90)" font-size="4" style="fill:rgb(71, 13, 96)">MRPL39</text>
+<text transform="translate(120,98)" font-size="4" style="fill:rgb(31, 159, 136)">OGDH</text>
+<text transform="translate(239,229)" font-size="4" style="fill:rgb(31, 148, 140)">SDHC</text>
+<text transform="translate(213,139)" font-size="4" style="fill:rgb(64, 69, 136)">SDHD</text>
+<text transform="translate(101,235) rotate(-90)" font-size="4" style="fill:rgb(35, 138, 141)">UQCR10</text>
+<text transform="translate(32,103)" font-size="4" style="fill:rgb(147, 215, 65)">SDHA</text>
+<text transform="translate(217,85) rotate(-90)" font-size="4" style="fill:rgb(124, 210, 80)">SLC25A13</text>
+<text transform="translate(165,108)" font-size="4" style="fill:rgb(68, 57, 131)">UQCRH</text>
+<text transform="translate(190,68)" font-size="4" style="fill:rgb(69, 55, 129)">ATP5MG</text>
+<text transform="translate(242,207) rotate(-90)" font-size="4" style="fill:rgb(37, 132, 142)">ATP5PF</text>
+<text transform="translate(107,193) rotate(-90)" font-size="4" style="fill:rgb(192, 223, 37)">ATP5PO</text>
+<text transform="translate(92,165) rotate(-90)" font-size="4" style="fill:rgb(70, 10, 93)">ATP5PD</text>
+<text transform="translate(116,227) rotate(-90)" font-size="4" style="fill:rgb(40, 125, 142)">MRPS36</text>
+<text transform="translate(182,169)" font-size="4" style="fill:rgb(71, 47, 125)">COX7B</text>
+<text transform="translate(141,180) rotate(-90)" font-size="4" style="fill:rgb(92, 200, 99)">UQCRC2</text>
+<text transform="translate(161,72)" font-size="4" style="fill:rgb(32, 146, 140)">UQCRB</text>
+<text transform="translate(177,146)" font-size="4" style="fill:rgb(210, 226, 27)">UQCRQ</text>
+<text transform="translate(163,236) rotate(-90)" font-size="4" style="fill:rgb(41, 121, 142)">ACOT8</text>
+<text transform="translate(59,80) rotate(-90)" font-size="4" style="fill:rgb(31, 161, 135)">HSD17B4</text>
+<text transform="translate(45,223)" font-size="4" style="fill:rgb(72, 24, 106)">MRPS6</text>
+<text transform="translate(206,166)" font-size="4" style="fill:rgb(42, 120, 142)">MRPS5</text>
+<text transform="translate(231,97) rotate(-90)" font-size="4" style="fill:rgb(41, 122, 142)">MRPS11</text>
+<text transform="translate(210,119)" font-size="4" style="fill:rgb(202, 225, 31)">MRPS9</text>
+<text transform="translate(76,180) rotate(-90)" font-size="4" style="fill:rgb(37, 133, 142)">MRPS15</text>
+<text transform="translate(116,244) rotate(-90)" font-size="4" style="fill:rgb(44, 114, 142)">MRPS2</text>
+<text transform="translate(29,134) rotate(-90)" font-size="4" style="fill:rgb(137, 213, 72)">MRPS18C</text>
+<text transform="translate(42,148) rotate(-90)" font-size="4" style="fill:rgb(33, 165, 133)">MRPS31</text>
+<text transform="translate(144,224) rotate(-90)" font-size="4" style="fill:rgb(48, 105, 142)">MRPS35</text>
+<text transform="translate(135,43) rotate(-90)" font-size="4" style="fill:rgb(70, 7, 90)">MRPS16</text>
+<text transform="translate(251,89)" font-size="4" style="fill:rgb(165, 219, 54)">DAP3</text>
+<text transform="translate(78,70) rotate(-90)" font-size="4" style="fill:rgb(244, 230, 30)">MRPS14</text>
+<text transform="translate(26,175) rotate(-90)" font-size="4" style="fill:rgb(168, 219, 52)">MRPS7</text>
+<text transform="translate(226,195) rotate(-90)" font-size="4" style="fill:rgb(115, 208, 86)">MRPS12</text>
+<text transform="translate(271,188) rotate(-90)" font-size="4" style="fill:rgb(37, 132, 142)">MRPS21</text>
+<text transform="translate(84,137) rotate(-90)" font-size="4" style="fill:rgb(194, 223, 35)">MRPS17</text>
+<text transform="translate(107,84) rotate(-90)" font-size="4" style="fill:rgb(72, 27, 109)">MRPS33</text>
+</svg>
