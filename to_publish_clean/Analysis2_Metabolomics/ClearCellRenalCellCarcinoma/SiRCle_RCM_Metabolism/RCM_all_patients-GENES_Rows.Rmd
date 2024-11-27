@@ -1,0 +1,271 @@
+---
+title: "RCM Results_Metabolomics"
+author: "Christina Schmidt"
+date: "05 May 2022"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+editor_options:
+  chunk_output_type: console
+---
+
+
+```{r, warning=FALSE, message=FALSE}
+#load the needed libraries:
+library(tidyverse) # used for data manipulation
+library(rmarkdown) # used for paged_table function
+```
+
+# Samples
+Here we use the results of the SiRCle output (RCM-Results).\
+Moreover, the metabolic signatures used to perform the GSEA based on [Gaude et al](https://www.nature.com/articles/ncomms13041#Sec16) are used to select specific metabolic pathways of interest.\
+```{r, warning=FALSE}
+#RCM Data
+RCM_Data<- read.csv("Input_RCM-Results/sircle_PorMandR_ClearCellRenalCellCarcinoma.csv")
+gene_name <- "gene_name"
+logFC_protein <- "logFC_protein"
+padj_protein <- "padj_protein"
+
+RemoveDublons <-function(MyData){
+  MyData <- MyData[complete.cases(MyData),] 
+  doublons <- as.character(MyData[duplicated(MyData[[gene_name]]), gene_name])
+  print("Number of duplicated genes:")
+  print(length(doublons))
+  # Keep the entry with the greatest Log2FC:
+  MyData$absLogFC <- abs(MyData[[logFC_protein]])
+  MyData <- MyData[ order(MyData$absLogFC), ]
+  MyData_Select <- MyData[!duplicated(MyData[[gene_name]]),]
+  #Safe:
+  OutputFileName <-  MyData_Select
+}#Remove duplicated genes: Function 
+RCM_Data_ND <- RemoveDublons(MyData=RCM_Data)
+
+#----------------------------------------------------------
+#Metabolic Pathway
+Metabolic_Signature <-read.csv("Input_MetabolicPathways_Gaude/41467_2016_BFncomms13041_MOESM340_ESM.csv")
+
+Correction_Metabolic_Signature <- read.csv("Input_MetabolicPathways_Gaude/41467_2016_BFncomms13041_MOESM341_ESM.csv")%>% 
+    mutate(Unique = case_when(associated_Pathways =="1" ~ 'Unique',
+                                  TRUE ~ 'In multiple Pathways'))
+Metabolic_Signature <-merge(x=Metabolic_Signature, y=Correction_Metabolic_Signature, by.x ="gene", by.y="external_gene_name", all.x=TRUE)
+
+```
+
+# Plots
+## Protein expression
+This refers to the proteomics results used as input data. here we use the results of for the SiRCle cluster (RCM data) to take the protein Log2FC and p.adj as well as the information to which SiRCle cluster a protein was assigned to.
+
+### Volcano Plot
+Metabolic enzyme can be part of multiple metabolic pathways. Here, we will highlight enzymes that are unique for the pathway and enzymes that are part of multiple pathways.
+```{r, warning=FALSE, message=FALSE}
+#Establish function:
+library(ggrepel)
+library(EnhancedVolcano)
+regulatory_label <- "RG2_Changes_filtered"
+
+VolcanoPlot_Protein <- function(Input, Signature, Signature_term){
+  Pathway <- subset(Signature, term == paste(Signature_term))
+  Volcano1  <- merge(x=Pathway,y=Input, by.x="gene", by.y=gene_name, all.x=TRUE)
+  #%>%
+  #na.omit()
+  #Prepare the colour scheme:
+  keyvals <- ifelse(
+    Volcano1$RG2_Changes_filtered == "MDS", "#CF4692",
+    ifelse(Volcano1[[regulatory_label]] == "MDS_TMDE", "#A16BAA",
+    ifelse(Volcano1[[regulatory_label]] == "MDE", "#6AAF43",
+    ifelse(Volcano1[[regulatory_label]] == "MDE_TMDS", "#0E8D6D",
+    ifelse(Volcano1[[regulatory_label]] == "TPDS", "#452D76",
+    ifelse(Volcano1[[regulatory_label]] == "TPDS_TMDE", "#7E4090",
+    ifelse(Volcano1[[regulatory_label]] == "TPDE", "#E58D26",
+    ifelse(Volcano1[[regulatory_label]] == "TPDE_TMDS", "#844D13",
+    ifelse(Volcano1[[regulatory_label]] == "TMDS", "#3A58A3",
+    ifelse(Volcano1[[regulatory_label]] == "TMDE", "#E5322F",
+    ifelse(Volcano1[[regulatory_label]] == "None", "grey",       
+           "black")))))))))))
+  names(keyvals)[is.na(keyvals)] <- "black"
+  names(keyvals)[keyvals == 'black'] <- "NA"
+  names(keyvals)[keyvals == '#CF4692'] <- "MDS"
+  names(keyvals)[keyvals == '#A16BAA'] <- "MDS_TMDE"
+  names(keyvals)[keyvals == '#6AAF43'] <- "MDE"
+  names(keyvals)[keyvals == '#0E8D6D'] <- "MDE_TMDS"
+  names(keyvals)[keyvals == '#452D76'] <- "TPDS"
+  names(keyvals)[keyvals == '#7E4090'] <- "TPDS_TMDE"
+  names(keyvals)[keyvals == '#E58D26'] <- "TPDE"
+  names(keyvals)[keyvals == '#844D13'] <- "TPDE_TMDS"
+  names(keyvals)[keyvals == '#3A58A3'] <- "TMDS"
+  names(keyvals)[keyvals == '#E5322F'] <- "TMDE"
+  names(keyvals)[keyvals == 'grey'] <- "None"
+  #names(keyvals)[keyvals == 'grey'] <- "Not-Background"
+  
+  #Prepare the symbols:
+  keyvals.shape <- ifelse(
+    Volcano1$Unique == "Unique", 19,
+      ifelse(Volcano1$Unique == "In multiple Pathways", 18,
+        3))
+  keyvals.shape[is.na(keyvals.shape)] <- 3
+  names(keyvals.shape)[keyvals.shape == 3] <- 'NA'
+  names(keyvals.shape)[keyvals.shape == 19] <- 'Unique'
+  names(keyvals.shape)[keyvals.shape == 18] <- 'In multiple Pathways'
+  #plot
+  VolcanoPlot <- EnhancedVolcano (Volcano1,
+                lab = Volcano1$gene,#Metabolite name
+                x = logFC_protein,#Log2FC
+                y = padj_protein,#p-value or q-value
+                xlab = "Log2FC (Protein)",
+                ylab = bquote(~-Log[10]~`p.adj`),#(~-Log[10]~adjusted~italic(P))
+                pCutoff = 0.05,
+                FCcutoff = 0.5,#Cut off Log2FC, automatically 2
+                pointSize = 3,
+                labSize = 1,
+                shapeCustom = keyvals.shape,
+                colCustom = keyvals,
+                titleLabSize = 16,
+                col=c("black", "grey", "grey", "purple"),#if you want to change colors
+                colAlpha = 0.5,
+                title=paste(Signature_term),
+                subtitle = bquote(italic("Metabolic Pathway")),
+                caption = paste0("total = ", nrow(Volcano1), " genes of ", nrow(Pathway), " genes in pathway"),
+                xlim = c((((Reduce(min,Volcano1$logFC_protein))))-0.5,(((Reduce(max,Volcano1$logFC_protein))))+0.5),
+                ylim = c(0,((-log10(Reduce(min,Volcano1$padj_protein))))+0.1),
+                #drawConnectors = TRUE,
+                #widthConnectors = 0.5,
+                #colConnectors = "black",
+                cutoffLineType = "dashed",
+                cutoffLineCol = "black",
+                cutoffLineWidth = 0.5,
+                legendPosition = 'right',
+                legendLabSize = 12,
+                legendIconSize = 5.0
+                )
+  ggsave(file=paste("Output_Figures/Output_VolcanoProtein/VolcanoPlot_GAUDE", Signature_term, "RCM.pdf", sep="_"), plot=VolcanoPlot, width=10, height=8)
+  #plot(VolcanoPlot)
+}
+
+#Run the function:
+Pathway_Names <- Metabolic_Signature[!duplicated(Metabolic_Signature$term),]
+Pathway_Names <- Pathway_Names$term
+
+for (i in Pathway_Names){
+  VolcanoPlot_Protein(Input=RCM_Data,
+            Signature= Metabolic_Signature,
+            Signature_term=i)
+}
+```
+
+### Pie Chart
+Pie Chart of the distribution in percentage of SiRCle clusters in a Pathway.\
+```{r}
+# Calculate the Percentage of each cluster being represented in the pathway:
+# Establish the function:
+PieChart_Protein <- function(Input, Signature, Signature_term){
+  Pathway <- subset(Signature, term == paste(Signature_term))
+  Signature_Merge <- merge(x=Pathway,y=Input, by.x="gene", by.y=gene_name, all.x=TRUE)
+  #%>%
+  #na.omit() <<_ Removed this Ariane
+  Signature_Merge_Summary <- Signature_Merge%>%
+    group_by(regulatory_clusters) %>% 
+    summarise(percent = round(100 * n() / nrow(Signature_Merge)))
+  Signature_Merge_Summary$Label <- paste(Signature_Merge_Summary$regulatory_clusters, " (", Signature_Merge_Summary$percent, "%)")
+
+  Signature_Merge_Summary$count <- Signature_Merge%>% 
+    group_by(regulatory_clusters) %>%
+    summarise(count = sum(regulatory_clusters== 'MDS' ,
+                          regulatory_clusters== 'MDE',
+                          regulatory_clusters== 'TPDS',
+                          regulatory_clusters== 'TPDE',
+                          regulatory_clusters== 'TMDS',
+                          regulatory_clusters== 'TMDE' ,
+                          regulatory_clusters== 'MDE_TMDS',
+                          regulatory_clusters== 'MDS_TMDE',
+                          regulatory_clusters== 'TPDE_TMDS',
+                          regulatory_clusters== 'TPDS_TMDE',
+                          regulatory_clusters== 'None'))
+
+  Signature_Merge_Summary <- Signature_Merge_Summary%>% 
+      mutate(colour = case_when(regulatory_clusters =="MDS" ~ '#CF4692',
+                              regulatory_clusters =="MDS_TMDE" ~ '#A16BAA',
+                              regulatory_clusters =="MDE" ~ '#6AAF43',
+                              regulatory_clusters =="MDE_TMDS" ~ '#0E8D6D',
+                              regulatory_clusters =="TPDS" ~ '#452D76',
+                              regulatory_clusters =="TPDS_TMDE" ~ '#7E4090',
+                              regulatory_clusters =="TPDE" ~ '#E58D26',
+                              regulatory_clusters =="TPDE_TMDS" ~ '#844D13',
+                              regulatory_clusters =="TMDS" ~ '#3A58A3',
+                              regulatory_clusters =="TMDE" ~ '#E5322F',
+                              regulatory_clusters =="None" ~ 'grey',
+                              regulatory_clusters =="Not-Background" ~ 'grey',
+                                  TRUE ~ 'black'))
+
+#Plot
+  PieChart <- ggplot(Signature_Merge_Summary, aes(x="", y=percent, fill=Label))+
+    geom_bar(width = 1, stat = "identity")+
+    coord_polar("y", start=0)+
+    #scale_fill_grey() + 
+    scale_fill_manual(values=Signature_Merge_Summary$colour)+
+    theme_minimal()+
+    theme(axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          panel.border = element_blank(),
+          panel.grid=element_blank(),
+          axis.ticks = element_blank(),
+          plot.title=element_text(size=14, face="bold"))+
+  ggtitle(paste("", Signature_term))+
+  labs(fill = "SiRCle cluster")
+  ggsave(file=paste("Output_Figures/Output_PieChartProtein/PieChart", Signature_term, ".pdf", sep="_"), plot= PieChart, width=8, height=6)
+  #plot( PieChart)
+}
+RCM_Data <- RCM_Data[!is.na(RCM_Data$RG2_Changes_filtered),]
+# Run the function:
+Pathway_Names <- Metabolic_Signature[!duplicated(Metabolic_Signature$term),]
+Pathway_Names <- Pathway_Names$term
+RCM_Data$regulatory_clusters <- RCM_Data[[regulatory_label]]
+for (i in Pathway_Names){
+ PieChart_Protein(Input=RCM_Data,
+            Signature= Metabolic_Signature,
+            Signature_term=i)
+}
+```
+\
+For Figure 3a, we need some specific pie charts that are based on the enzymes shown in the specific pathways.
+```{r}
+Manual <- read.csv("Input_RCM-Results/PieCharts_ForFigure_Manuall.csv", check.names=FALSE)
+
+ManualPathway <- c("Glycolysis", "TCA cycle", "Serine-Cysteine Biosynthesis")
+
+PieChart_Manual <- function(Input, Signature_term){
+  DF <- subset(Input, Pathway == paste(Signature_term))
+  
+#Plot
+  PieChart <- ggplot(DF, aes(x="", y=`Genes %`, fill=`SiRCle Cluster`))+
+    geom_bar(width = 1, stat = "identity")+
+    coord_polar("y", start=0)+
+    scale_fill_grey() + 
+    theme_minimal()+
+    theme(axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          panel.border = element_blank(),
+          panel.grid=element_blank(),
+          axis.ticks = element_blank(),
+          plot.title=element_text(size=14, face="bold"))+
+  ggtitle(paste("", Signature_term))+
+  labs(fill = "SiRCle cluster")
+  ggsave(file=paste("Output_Figures/Output_Fig3a/Fig3a_ManualPieChart", Signature_term, ".pdf", sep="_"), plot= PieChart, width=8, height=6)
+  plot( PieChart)
+}
+
+
+for (i in ManualPathway){
+ PieChart_Manual(Input=Manual,
+            Signature_term=i)
+}
+```
+
+# Information about packages and versions used
+```{r}
+sessionInfo()
+```

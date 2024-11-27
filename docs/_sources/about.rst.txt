@@ -75,3 +75,53 @@ The general table of how we define regulatory clusters.
 
 Please post questions and issues related to sci-rcm on the `Issues <https://github.com/ArianeMora/scircm/issues>`_  section of the GitHub repository.
 
+.. toctree::
+   :caption: Reproducibility
+   :maxdepth: 1
+
+   examples/R4_Part1_RCM_Figure1
+   examples/R4_Part1_RCM_Figure2
+   examples/R4_Part1_RCM_Figure3
+   examples/R4_Part1_RCM_Figure4
+   examples/R4_Part1_RCM_Figure5-Late
+   examples/R4_Part1_RCM_Figure5
+   examples/R4_Part1_RCM_S.Fig1
+   examples/R5_PanCan_Part1_RCM_Figure1
+   examples/R5_PanCan_Part1_RCM_Figure2
+   examples/R5_PanCan_Part1_RCM_Figure3
+   examples/R5_PanCan_Part1_RCM_Figure4
+   examples/R5_PanCan_Part1_RCM_S.Fig1
+   examples/R6_ccRCC_Part2_VAE_Figure4
+   examples/R6_ccRCC_Part2_VAE_Figure5
+   examples/R6_ccRCC_Part2_VAE_Figure6
+   examples/R7_PanCan_Part2_VAE_Figure4
+   examples/R7_PanCan_Part2_VAE_Figure5
+   examples/R7_PanCan_Part2_VAE_Figure6
+   examples/R8_Comparison_Figure1
+   examples/R8_Part4_ITH_Processing-Larger
+   examples/R8_Part4_ITH_S.Fig1
+   examples/R8_Part4_ITH_protein_analysis
+   examples/RCM_all_patients-GENES_Rows
+   examples/Benchmarking
+   examples/N01_RNAProcessing
+   examples/N02_ClinicalProcessing
+   examples/N03_protein_imputation
+   examples/N04_ProteinProcessing
+   examples/N05_MethProcessing
+   examples/N06_PhosphoProteinProcessing
+   examples/N07_RNAProcessing
+   examples/N08_DatasetGeneration
+   examples/N09_TvN_DE_DA_CpG
+   examples/N10_MethylationFilter
+   examples/N11_SiRCle_RCM
+   examples/N12_SiRCle_ORA_GSEA
+   examples/N13_SiRCle_ORA_vis
+   examples/N14_TF
+   examples/N15_VAE_Integration
+   examples/N16_Integration_GSEA
+   examples/N17_SingleCell_setup
+   examples/N17_singlecell_StageIV-StageI
+   examples/N18_singlecell_PBRM1-BAP1
+   examples/N20_Metabolomics_TvN
+   examples/N21_Metabolomics_RCM
+   examples/N22_Metabolomics_VAE

@@ -78,13 +78,16 @@ html_theme_options = {
 html_static_path = ['_static']
 
 html_context = {
-    'css_files': [
-        '_static/theme_overrides.css',  # override wide tables in RTD theme
-        ],
+    #
+    # 'css_files': [
+    #     '_static/normal.css',
+    #     '_static/theme_overrides.css',  # override wide tables in RTD theme
+    #     ],
     'display_github': True,
     'github_user': 'arianemora',
     'github_repo': 'SiRCle_multiomics_integration',
     'github_version': 'main/docs_src/src/'
+
      }
 
 html_js_files = [
