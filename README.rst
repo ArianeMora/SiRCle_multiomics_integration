@@ -20,14 +20,15 @@ Information
 ===========
 This site hosts the information associated with the paper: **SiRCle (Signature Regulatory Clustering) model integration reveals mechanisms of phenotype regulation in renal cancer**.
 Here we provide the code and data used for all the analyses in the paper and link to the packages we developed as part of
-producing the paper.
+producing the paper. Note the code in `manuscript_reproducibility` is from prior to our revision. While `to_publish_clean` is
+ all the notebooks and HTML outputs from every figure in the paper. We also have all data, code and everything on Zenodo: https://zenodo.org/records/14176842
 
 Links to analyses and data
 --------------------------
 
 - `Code and tutorials: <https://github.com/ArianeMora/scircm>`_
-- `Analyses and processed data <https://arianemora.github.io/SiRCle_multiomics_integration/>`_
-
+- `Analyses, reproducibility, and processed data <https://arianemora.github.io/SiRCle_multiomics_integration/>`_
+- `Data and everything <https://zenodo.org/records/14176842>`_
 
 Places where this (or a package we developed for this) has been presented
 -------------------------------------------------------------------------
