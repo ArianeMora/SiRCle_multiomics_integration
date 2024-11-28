@@ -1,17 +1,14 @@
-***********************
-**SiRCleMansucript:**
-***********************
-
 **********************************************************************************************************************
 SiRCle (Signature Regulatory Clustering) model integration reveals mechanisms of phenotype regulation in renal cancer
 **********************************************************************************************************************
 
 Running
 =======
-If you're interested in running SiRCLe:
+If you're interested in running SiRCLe we have 3 options:
+
 1. `website <https://arianemora-sircle-web-app-ndu996.streamlit.app/>`_
 2. `Python version <https://github.com/ArianeMora/scircm>`_
-2. `R version <https://github.com/ArianeMora/SiRCleR>`_
+3. `R version <https://github.com/ArianeMora/SiRCleR>`_
 
 
 Paper
@@ -20,20 +17,27 @@ We're in the process of submission but you can read our preprint `here <https://
 
 Always happy to hear feedback and suggestions :)
 
+
+Links to manuscript data and outputs
+------------------------------------
+
+We did our best to make everything as reproducible as possible but if you notice anything that isn't please let us know!
+Same with the code we did our best to ensure it all runs, so if it doesn't please let us know and we will update it ASAP.
+
+
+- `Analyses, reproducibility, and processed data <https://arianemora.github.io/SiRCle_multiomics_integration/>`_
+- `Data from the manuscript <https://zenodo.org/records/14176842>`_
+
+
 Information
 ===========
 This site hosts the information associated with the paper: **SiRCle (Signature Regulatory Clustering) model integration reveals mechanisms of phenotype regulation in renal cancer**.
 Here we provide the code and data used for all the analyses in the paper and link to the packages we developed as part of
-producing the paper. Note the code in `manuscript_reproducibility` is from prior to our revision. While `to_publish_clean` is
- all the notebooks and HTML outputs from every figure in the paper. We also have all data, code and everything on Zenodo: https://zenodo.org/records/14176842
+producing the paper. Note the code in **manuscript_reproducibility** is from prior to our revision. While **to_publish_clean** is
+ all the notebooks and HTML outputs from every figure in the paper.
 
-Links manuscript data and outputs
----------------------------------
+We also have all data, code and everything on `Zenodo <https://zenodo.org/records/14176842>`_.
 
-We did our best to make everything as reproducible as possible but if you notice anything that isn't please let us know!
-Same with the code we did our best to ensure it all runs, so if it doesn't please let us know and we will update it ASAP.
-- `Analyses, reproducibility, and processed data <https://arianemora.github.io/SiRCle_multiomics_integration/>`_
-- `Data from the manuscript <https://zenodo.org/records/14176842>`_
 
 Places where this (or a package we developed for this) has been presented
 -------------------------------------------------------------------------
