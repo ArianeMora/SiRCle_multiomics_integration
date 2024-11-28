@@ -6,14 +6,18 @@
 SiRCle (Signature Regulatory Clustering) model integration reveals mechanisms of phenotype regulation in renal cancer
 **********************************************************************************************************************
 
-Code
-====
-If you're interested in running SiRCLe: please see our R package: https://github.com/ArianeMora/SiRCleR
-or python package for installation instructions, examples and documentation: https://github.com/ArianeMora/scircm
+Running
+=======
+If you're interested in running SiRCLe:
+1. `website <https://arianemora-sircle-web-app-ndu996.streamlit.app/>`_
+2. `Python version <https://github.com/ArianeMora/scircm>`_
+2. `R version <https://github.com/ArianeMora/SiRCleR>`_
+
 
 Paper
 =====
-We're in the process of submission but you can read our preprint here: https://www.biorxiv.org/content/10.1101/2022.07.02.498058v1
+We're in the process of submission but you can read our preprint `here <https://www.biorxiv.org/content/10.1101/2022.07.02.498058v1>`_.
+
 Always happy to hear feedback and suggestions :)
 
 Information
@@ -23,12 +27,13 @@ Here we provide the code and data used for all the analyses in the paper and lin
 producing the paper. Note the code in `manuscript_reproducibility` is from prior to our revision. While `to_publish_clean` is
  all the notebooks and HTML outputs from every figure in the paper. We also have all data, code and everything on Zenodo: https://zenodo.org/records/14176842
 
-Links to analyses and data
---------------------------
+Links manuscript data and outputs
+---------------------------------
 
-- `Code and tutorials: <https://github.com/ArianeMora/scircm>`_
+We did our best to make everything as reproducible as possible but if you notice anything that isn't please let us know!
+Same with the code we did our best to ensure it all runs, so if it doesn't please let us know and we will update it ASAP.
 - `Analyses, reproducibility, and processed data <https://arianemora.github.io/SiRCle_multiomics_integration/>`_
-- `Data and everything <https://zenodo.org/records/14176842>`_
+- `Data from the manuscript <https://zenodo.org/records/14176842>`_
 
 Places where this (or a package we developed for this) has been presented
 -------------------------------------------------------------------------
@@ -66,10 +71,4 @@ Ariane Mora^1, Christina Schmidt^2,3, Brad Balderson1, Christian Frezza3#, Mikae
 #Joint last authors
 
 Note Christina and Ariane are equal joint first authors and the authors may swap the order of their names as they so choose :)
-
-Abstract
-========
-Clear cell renal cell carcinoma (ccRCC) tumours develop and progress via complex remodelling of the kidney epigenome, transcriptome, proteome, and metabolome. Given the subsequent tumour and inter-patient heterogeneity, drug-based treatments report limited success, calling for multi-omics studies to extract regulatory relationships, and ultimately, to develop targeted therapies. However, current methods are unable to extract nonlinear multi-omics perturbations.
-
-Here, we present SiRCle (Signature Regulatory Clustering), a novel method to integrate DNA methylation, RNA-seq and proteomics data. Applying SiRCle to a case study of ccRCC, we disentangle the layer (DNA methylation, transcription and/or translation) where dysregulation first occurs and find the primary biological processes altered. Next, we detect regulatory differences between patient subsets by using a variational autoencoder to integrate omics’ data followed by statistical comparisons on the integrated space. In ccRCC patients, SiRCle allows to identify metabolic enzymes and cell-type-specific markers associated with survival along with the likely molecular driver behind the gene’s perturbations.
 
