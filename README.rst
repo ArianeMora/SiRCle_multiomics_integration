@@ -13,7 +13,7 @@ If you're interested in running SiRCLe we have 3 options:
 
 Paper
 =====
-We're in the process of submission but you can read our preprint `here <https://www.biorxiv.org/content/10.1101/2022.07.02.498058v1>`_.
+Published here: `here <https://genomemedicine.biomedcentral.com/articles/10.1186/s13073-024-01415-3>`_.
 
 Always happy to hear feedback and suggestions :)
 
