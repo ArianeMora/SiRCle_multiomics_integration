@@ -27,7 +27,7 @@ Same with the code we did our best to ensure it all runs, so if it doesn't pleas
 
 - `Analyses, reproducibility, and processed data <https://arianemora.github.io/SiRCle_multiomics_integration/>`_
 - `Data from the manuscript <https://zenodo.org/records/14176842>`_
-- Check out the `<https://github.com/ArianeMora/SiRCle_multiomics_integration/wiki>`_ for a blog-ish style limitations
+- `Check out the wiki for a blog-ish style limitations <https://github.com/ArianeMora/SiRCle_multiomics_integration/wiki>`_ 
 
 
 Information
